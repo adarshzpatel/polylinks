@@ -28,6 +28,9 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                     !outline && variant === 'secondary',
                     'bg-emerald-600 hover:bg-emerald-600/75 active:bg-emerald-600/75  focus:ring-1 ring-emerald-100 text-white':
                     !outline && variant === 'success',
+                    'bg-rose-600 hover:bg-rose-600/75 active:bg-rose-600/75  focus:ring-1 ring-rose-100 text-white':
+                    !outline && variant === 'danger',
+                    
                     'border-brand-500 bg-brand-800/10 hover:bg-brand-800/20 active:bg-brand-600/10 focus:bg-brand-600/10 focus:outline-none focus:ring-0 text-brand-400 ': outline && variant === 'primary',
                     'border-gray-500 bg-gray-600/10 hover:bg-gray-500/10  active:bg-zinc-500/20 focus:bg-gray-500/20 text-gray-400 hover:text-gray-200 hover:border-gray-300  focus:outline-none focus:ring-0 ': outline && variant === 'secondary',
                     'border ':outline,
