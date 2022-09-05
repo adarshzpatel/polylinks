@@ -12,7 +12,7 @@ const SocialMediaIcon = ({ icon: Icon, href, name }: SocialMediaIconProps) => {
     <Tooltip content={name}>
       <a
         href={href}
-        className="bg-gray-800 hover:bg-gray-700 rounded-full text-gray-400 hover:text-cyan-400 p-2"
+        className="bg-gray-700/50 duration-300 ease-out  rounded-lg text-gray-400 hover:ring-1 hover:ring-brand-400 hover:text-brand-400 hover:bg-brand-700/20  p-2"
       >
         <Icon className="h-6 w-6 " />
       </a>

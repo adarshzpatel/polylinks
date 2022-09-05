@@ -1,23 +1,17 @@
 import React from "react";
-import { FiArrowUpRight } from "react-icons/fi";
+import { FiExternalLink } from "react-icons/fi";
+import { LinkItem } from "src/pages/[name]/edit";
 
-type Props = {};
-
-const LinkCard = (props: Props) => {
+const LinkCard = ({ title, url }: LinkItem) => {
   return (
-    <div>
-      <a href="#" target={"_blank"} rel="noreferrer">
-        <div className="bg-gray-800 group hover:text-gray-300  hover:ring-2 hover:ring-gray-50/20 duration-300 ease-out gap-4 flex items-center p-2 rounded-lg">
-          <div className=" aspect-square  h-12 rounded-md bg-brand-600 p-3">
-            <FiArrowUpRight className="h-full w-full  group-hover:rotate-45 duration-300 ease-out" />
-          </div>
-          <div>
-            <p className="font-medium ">Link Title</p>
-            <p className="truncate text-gray-500 text-sm underline underline-offset-4">
-              Link Url
-            </p>
-          </div>
-        </div>
+    <div className="w-full">
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        className="bg-gray-800/75 hover:shadow-xl py-2 px-4 rounded-lg  hover:ring-1  ring-gray-600 hover:ring-brand-400 hover:bg-brand-900/20 flex items-center justify-between gap-2 duration-300 ease-out hover:text-brand-300 "
+      >
+        {title} <FiExternalLink />
       </a>
     </div>
   );

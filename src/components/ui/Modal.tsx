@@ -50,7 +50,7 @@ const Modal: React.FC<Props> = ({ isOpen, closeModal,children,size='md' }) => {
                                 { 'sm:max-w-5xl': size === 'lg' },
                                 { 'sm:max-w-3xl': size === 'md' },
                                 { 'sm:max-w-lg': size === 'sm' },
-                                'inline-block bg-slate-100 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 align-middle w-full rounded-lg p-6 border '
+                                'inline-block bg-gray-900 border-gray-700 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 align-middle w-full rounded-lg p-6 border '
                             )}>
                             <button onClick={closeModal} className="absolute right-6 top-6">
                                 <HiX className="h-6 w-6" />

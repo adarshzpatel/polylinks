@@ -1,6 +1,5 @@
 import Tippy, { TippyProps } from "@tippyjs/react";
 import React, { JSXElementConstructor, ReactElement, ReactNode } from "react";
-import 'tippy.js/dist/tippy.css';
 import "tippy.js/animations/scale.css";
 
 type Props = {
@@ -16,7 +15,7 @@ const Tooltip = ({ content, children, className = "", ...rest }: Props) => {
       animation="scale"
       arrow={true}
       className={
-        "shadow-2xl " +
+        "shadow-2xl backdrop-blur-xl font-mono backdrop-brightness-50 px-2 py-0.5 ring-1 bg-brand-900/30 rounded-lg ring-brand-400" +
         className
       }
       {...rest}
