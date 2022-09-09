@@ -23,6 +23,7 @@
     "react-dropzone": "^14.2.2",
     "react-hook-form": "^7.34.2",
     "react-icons": "^4.4.0",
+    "react-parallax-tilt": "^1.7.62",
     "wagmi": "^0.6.4"
   },
   "devDependencies": {
