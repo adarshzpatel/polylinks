@@ -6,11 +6,13 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
   darkTheme,
+  Theme,
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import { SessionProvider } from "next-auth/react";
 
 const { provider, webSocketProvider, chains } = configureChains(
-  [chain.polygon, chain.polygonMumbai],
+  [chain.polygonMumbai],
   [publicProvider()]
 );
 
@@ -27,20 +29,29 @@ const client = createClient({
   connectors,
 });
 
+const customDarkTheme = darkTheme({
+  accentColor: "#8b5cf6",
+  accentColorForeground: "white",
+  borderRadius: "medium",
+  overlayBlur: "small",
+});
+
+const customTheme: Theme = {
+  ...customDarkTheme,
+  colors: {
+    ...customDarkTheme.colors,
+    connectButtonBackground: "rgba(63, 63, 70, 0.15)",
+  },
+};
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={client}>
-      <RainbowKitProvider
-        theme={darkTheme({
-          accentColor: "#7c3aed",
-          accentColorForeground: "white",
-          borderRadius: "medium",
-          overlayBlur: "small",
-        })}
-        chains={chains}
-      >
-        <Component {...pageProps} />
-      </RainbowKitProvider>
+      <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <RainbowKitProvider coolMode theme={customTheme} chains={chains}>
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </SessionProvider>
     </WagmiConfig>
   );
 }

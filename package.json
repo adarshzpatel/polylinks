@@ -15,7 +15,7 @@
     "axios": "^0.27.2",
     "clsx": "^1.2.1",
     "ethers": "^5.7.0",
-    "moralis": "^2.2.0",
+    "moralis": "^2.4.0",
     "next": "12.2.5",
     "next-auth": "^4.10.3",
     "nft.storage": "^7.0.0",

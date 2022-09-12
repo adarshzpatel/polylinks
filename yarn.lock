@@ -1606,65 +1606,75 @@
   "resolved" "https://registry.npmjs.org/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz"
   "version" "2.0.0"
 
-"@moralisweb3/api-utils@^2.2.0":
-  "integrity" "sha512-eRscCQIIybHWHdMsBLBmgJHmacdEVL+dO4khmhcGNqY9tX2c7tkcs3aCnUgBcpzH1Z8v4Ad/xSDEhFVXzv/o2g=="
-  "resolved" "https://registry.npmjs.org/@moralisweb3/api-utils/-/api-utils-2.2.0.tgz"
-  "version" "2.2.0"
+"@moralisweb3/api-utils@^2.4.0":
+  "integrity" "sha512-6L47EOahHcuNgbGi4e/FIFCqZ3WgjNi8Xg5BySNzzWcL9te4IXl6uSht99flLTjVwgPCF48AV/sSJiTUi66lUQ=="
+  "resolved" "https://registry.npmjs.org/@moralisweb3/api-utils/-/api-utils-2.4.0.tgz"
+  "version" "2.4.0"
   dependencies:
-    "@moralisweb3/core" "^2.2.0"
+    "@moralisweb3/core" "^2.4.0"
 
-"@moralisweb3/auth@^2.2.0":
-  "integrity" "sha512-IqZkNTSv+9/Fr29qIVvoIzj+EgmrCy6Hc7PqI+evrjYQVFNvO2IbOpJX8TJ3JMr1yDzb4f+M5J1WJx2+PAzdrA=="
-  "resolved" "https://registry.npmjs.org/@moralisweb3/auth/-/auth-2.2.0.tgz"
-  "version" "2.2.0"
+"@moralisweb3/auth@^2.4.0":
+  "integrity" "sha512-qjPxvUVa44qFEdhkIcJ99V508D/h8Zs9N0Hp8TXvu6bvRn2xybzWhl+g4kjxln9d9gmpYkY1f2eExmUMN8qtEw=="
+  "resolved" "https://registry.npmjs.org/@moralisweb3/auth/-/auth-2.4.0.tgz"
+  "version" "2.4.0"
   dependencies:
-    "@moralisweb3/api-utils" "^2.2.0"
-    "@moralisweb3/core" "^2.2.0"
-    "@moralisweb3/evm-utils" "^2.2.0"
+    "@moralisweb3/api-utils" "^2.4.0"
+    "@moralisweb3/core" "^2.4.0"
+    "@moralisweb3/evm-utils" "^2.4.0"
+    "@moralisweb3/sol-utils" "^2.4.0"
 
-"@moralisweb3/core@^2.2.0":
-  "integrity" "sha512-aMldT9w0rFfTtivXNnn/AAwRHXqvZMWk5/glms9xteUBoj6j9ATj/ZyiAft+cU4GR2ouqX61sRPXjEAOgPfcNg=="
-  "resolved" "https://registry.npmjs.org/@moralisweb3/core/-/core-2.2.0.tgz"
-  "version" "2.2.0"
+"@moralisweb3/core@^2.4.0":
+  "integrity" "sha512-tdPnEST5E8Jg80CrBtaPl8S351HoqFXYe73N2M3qSZ3hHc64f8z77O5tS8v1yxlKiM29yiL+75a41rB27rx2xg=="
+  "resolved" "https://registry.npmjs.org/@moralisweb3/core/-/core-2.4.0.tgz"
+  "version" "2.4.0"
   dependencies:
     "axios" "^0.27.2"
     "eventemitter3" "^4.0.7"
     "typed-emitter" "^2.1.0"
 
-"@moralisweb3/evm-api@^2.2.0":
-  "integrity" "sha512-1uDojV9YcNluMY83//S4gPk9zmEMzq0lVrc52W7pFEaMM7EYyCjoYShfK+zYmBJDBZ/0EUorZTxkd0/sZgw5Lg=="
-  "resolved" "https://registry.npmjs.org/@moralisweb3/evm-api/-/evm-api-2.2.0.tgz"
-  "version" "2.2.0"
+"@moralisweb3/evm-api@^2.4.0":
+  "integrity" "sha512-FwEO57fOuqxm49VtGj6RslyolbrgQxbMdJKk9fkJH5JdHUiuv57RxGutZvVfgGnl+yf+sJUXffQz6Ri7AlQ7gQ=="
+  "resolved" "https://registry.npmjs.org/@moralisweb3/evm-api/-/evm-api-2.4.0.tgz"
+  "version" "2.4.0"
   dependencies:
-    "@moralisweb3/api-utils" "^2.2.0"
-    "@moralisweb3/core" "^2.2.0"
-    "@moralisweb3/evm-utils" "^2.2.0"
+    "@moralisweb3/api-utils" "^2.4.0"
+    "@moralisweb3/core" "^2.4.0"
+    "@moralisweb3/evm-utils" "^2.4.0"
 
-"@moralisweb3/evm-utils@^2.2.0":
-  "integrity" "sha512-XyLa8aIAX2V+VAYv3WVjZ2NqZigJHv0YDqlX5EgNl02SFfmgrGcDsauu0PlavW+a3v20yxZbqtEgeHGY6Pycig=="
-  "resolved" "https://registry.npmjs.org/@moralisweb3/evm-utils/-/evm-utils-2.2.0.tgz"
-  "version" "2.2.0"
+"@moralisweb3/evm-utils@^2.4.0":
+  "integrity" "sha512-cy3VhoYi43SA8OwHyzClL7nBCVvwRvbTe9uRvrOajHq3F4xx02pnxiM5paGr/tEsh15SAiFSB1mf+cl/n7w6Dw=="
+  "resolved" "https://registry.npmjs.org/@moralisweb3/evm-utils/-/evm-utils-2.4.0.tgz"
+  "version" "2.4.0"
   dependencies:
     "@ethersproject/address" "^5.6.0"
     "@ethersproject/transactions" "^5.6.0"
-    "@moralisweb3/core" "^2.2.0"
+    "@moralisweb3/core" "^2.4.0"
 
-"@moralisweb3/sol-api@^2.2.0":
-  "integrity" "sha512-ccZI1HWsVRoPQBTKnHHz8p5TTyJ0mo0z/Zoh5Lj3HJF79NuEmgNWx3izbEkUDaPrqtIOblx5bT7zDlxfvG1WdA=="
-  "resolved" "https://registry.npmjs.org/@moralisweb3/sol-api/-/sol-api-2.2.0.tgz"
-  "version" "2.2.0"
+"@moralisweb3/sol-api@^2.4.0":
+  "integrity" "sha512-WYDFt1wwxcsh5phtzd04G2qCg/2ysG3Am4gcVX+Iujk/xMdpSbQ4IU75ZeT+92VyiiDlpj3qneFVEC3xYwH4Kw=="
+  "resolved" "https://registry.npmjs.org/@moralisweb3/sol-api/-/sol-api-2.4.0.tgz"
+  "version" "2.4.0"
   dependencies:
-    "@moralisweb3/api-utils" "^2.2.0"
-    "@moralisweb3/core" "^2.2.0"
-    "@moralisweb3/sol-utils" "^2.2.0"
+    "@moralisweb3/api-utils" "^2.4.0"
+    "@moralisweb3/core" "^2.4.0"
+    "@moralisweb3/sol-utils" "^2.4.0"
 
-"@moralisweb3/sol-utils@^2.2.0":
-  "integrity" "sha512-1xMjdR8R6oWlrA9W9tfKmstypINzREzp/aNn6hmtOfDCNnGxBlQYQEfXHBaVo+EBV29l2AeV5X4xkoXGaYbOiA=="
-  "resolved" "https://registry.npmjs.org/@moralisweb3/sol-utils/-/sol-utils-2.2.0.tgz"
-  "version" "2.2.0"
+"@moralisweb3/sol-utils@^2.4.0":
+  "integrity" "sha512-tlRjUFaHNjpbGoxu07g23pzMRL5fsSUlYyo8SYP0xwh4E+4WArrXtHrPySBtZ2UGSejUza//W+ZwBU683RTLnQ=="
+  "resolved" "https://registry.npmjs.org/@moralisweb3/sol-utils/-/sol-utils-2.4.0.tgz"
+  "version" "2.4.0"
   dependencies:
-    "@moralisweb3/core" "^2.2.0"
-    "@solana/web3.js" "^1.55.0"
+    "@moralisweb3/core" "^2.4.0"
+    "@solana/web3.js" "^1.56.2"
+
+"@moralisweb3/streams@^2.4.0":
+  "integrity" "sha512-8MQFJWhO6qL0NExJHQ819j9v1kNClazKozZ1XLj9H9DbHE//BK8dq0KoXCIlorDDmU+Za5kA8mLIbg6mBBqPMQ=="
+  "resolved" "https://registry.npmjs.org/@moralisweb3/streams/-/streams-2.4.0.tgz"
+  "version" "2.4.0"
+  dependencies:
+    "@moralisweb3/api-utils" "^2.4.0"
+    "@moralisweb3/core" "^2.4.0"
+    "@moralisweb3/evm-utils" "^2.4.0"
 
 "@multiformats/murmur3@^1.0.3":
   "integrity" "sha512-wAPLUErGR8g6Lt+bAZn6218k9YQPym+sjszsXL6o4zfxbA22P+gxWZuuD9wDbwL55xrKO5idpcuQUX7/E3oHcw=="
@@ -1692,9 +1702,9 @@
   "version" "12.2.5"
 
 "@noble/ed25519@^1.7.0":
-  "integrity" "sha512-LeAxFK0+181zQOhOUuKE8Jnd3duzYhDNd3iCLxpmzA5K+e4I1FdbrK3Ot0ZHBwZMeRD/6EojyUfTbpHZ+hkQHg=="
-  "resolved" "https://registry.npmjs.org/@noble/ed25519/-/ed25519-1.7.0.tgz"
-  "version" "1.7.0"
+  "integrity" "sha512-Rk4SkJFaXZiznFyC/t77Q0NKS4FL7TLJJsVG2V2oiEq3kJVeTdxysEe/yRWSpnWMe808XRDJ+VFh5pt/FN5plw=="
+  "resolved" "https://registry.npmjs.org/@noble/ed25519/-/ed25519-1.7.1.tgz"
+  "version" "1.7.1"
 
 "@noble/hashes@^1.1.2":
   "integrity" "sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA=="
@@ -1702,9 +1712,9 @@
   "version" "1.1.2"
 
 "@noble/secp256k1@^1.6.3":
-  "integrity" "sha512-T04e4iTurVy7I8Sw4+c5OSN9/RkPlo1uKxAomtxQNLq8j1uPAqnsqG1bqvY3Jv7c13gyr6dui0zmh/I3+f/JaQ=="
-  "resolved" "https://registry.npmjs.org/@noble/secp256k1/-/secp256k1-1.6.3.tgz"
-  "version" "1.6.3"
+  "integrity" "sha512-kbacwGSsH/CTout0ZnZWxnW1B+jH/7r/WAAKLBtrRJ/+CUH7lgmQzl3GTrQua3SGKWNSDsS6lmjnDpIJ5Dxyaw=="
+  "resolved" "https://registry.npmjs.org/@noble/secp256k1/-/secp256k1-1.7.0.tgz"
+  "version" "1.7.0"
 
 "@nodelib/fs.scandir@2.1.5":
   "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="
@@ -2021,10 +2031,10 @@
   dependencies:
     "buffer" "~6.0.3"
 
-"@solana/web3.js@^1.55.0":
-  "integrity" "sha512-ByWfNA8H/1EB4g0749uhkQ0zZZAQealzRmmT3UMIv3xe0DeHwnrzQUavBtAlHNMrKqLHu8kd+XtPci6zreMjjA=="
-  "resolved" "https://registry.npmjs.org/@solana/web3.js/-/web3.js-1.56.2.tgz"
-  "version" "1.56.2"
+"@solana/web3.js@^1.56.2":
+  "integrity" "sha512-gXwUPOruR786Mbce4n5cM2JA00UvRLuoUAQ5Me/XvY49Tqb8u4umifPY/rzWigJxs3XDCN2i2OT1avYjoePLMw=="
+  "resolved" "https://registry.npmjs.org/@solana/web3.js/-/web3.js-1.60.0.tgz"
+  "version" "1.60.0"
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@noble/ed25519" "^1.7.0"
@@ -2038,7 +2048,6 @@
     "buffer" "6.0.1"
     "fast-stable-stringify" "^1.0.0"
     "jayson" "^3.4.4"
-    "js-sha3" "^0.8.0"
     "node-fetch" "2"
     "rpc-websockets" "^7.5.0"
     "superstruct" "^0.14.2"
@@ -6637,18 +6646,19 @@
   dependencies:
     "minimist" "^1.2.6"
 
-"moralis@^2.2.0":
-  "integrity" "sha512-QNmdj3hiRTqq9/y4Sy2/+9IjKzXUw+Wg0i0xm9Jme/twQiJYWQcg0ag2JUq/7Q9fQVO3vqoolX+UFqagPhLvFQ=="
-  "resolved" "https://registry.npmjs.org/moralis/-/moralis-2.2.0.tgz"
-  "version" "2.2.0"
+"moralis@^2.4.0":
+  "integrity" "sha512-P5JwTx7/ICnrLUhOcZ3KRzJ5XACYXyyDvM8rpgszhU7aRU6sg4/mDQjjpPRBzbe5v6qk94xoY9ind8P0O5y2JQ=="
+  "resolved" "https://registry.npmjs.org/moralis/-/moralis-2.4.0.tgz"
+  "version" "2.4.0"
   dependencies:
-    "@moralisweb3/api-utils" "^2.2.0"
-    "@moralisweb3/auth" "^2.2.0"
-    "@moralisweb3/core" "^2.2.0"
-    "@moralisweb3/evm-api" "^2.2.0"
-    "@moralisweb3/evm-utils" "^2.2.0"
-    "@moralisweb3/sol-api" "^2.2.0"
-    "@moralisweb3/sol-utils" "^2.2.0"
+    "@moralisweb3/api-utils" "^2.4.0"
+    "@moralisweb3/auth" "^2.4.0"
+    "@moralisweb3/core" "^2.4.0"
+    "@moralisweb3/evm-api" "^2.4.0"
+    "@moralisweb3/evm-utils" "^2.4.0"
+    "@moralisweb3/sol-api" "^2.4.0"
+    "@moralisweb3/sol-utils" "^2.4.0"
+    "@moralisweb3/streams" "^2.4.0"
 
 "move-file@^2.1.0":
   "integrity" "sha512-i9qLW6gqboJ5Ht8bauZi7KlTnQ3QFpBCvMvFfEcHADKgHGeJ9BZMO7SFCTwHPV9Qa0du9DYY1Yx3oqlGt30nXA=="
