@@ -9,44 +9,6 @@ import { FiChevronDown } from "react-icons/fi";
 import { HiOutlineChevronDown } from "react-icons/hi";
 
 const ConnectWallet: React.FC = () => {
-  const { isConnected, address } = useAccount();
-  const { chain } = useNetwork();
-  const { status } = useSession();
-  const { signMessageAsync } = useSignMessage();
-  const { push } = useRouter();
-
-  useEffect(() => {
-    const handleAuth = async () => {
-      const userData = { address, chain: chain?.id, network: "evm" };
-
-      const { data } = await axios.post("/api/auth/request-message", userData, {
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-
-      const message = data.message;
-
-      const signature = await signMessageAsync({ message });
-
-      // redirect user after success authentication to '/user' page
-      const { url }: any = await signIn("credentials", {
-        message,
-        signature,
-        redirect: false,
-        callbackUrl: "/user",
-      });
-      /**
-       * instead of using signIn(..., redirect: "/user")
-       * we get the url from callback and push it to the router to avoid page refreshing
-       */
-      push(url);
-    };
-    if (status === "unauthenticated" && isConnected) {
-      handleAuth();
-    }
-  }, [status, isConnected]);
-
   return (
     <ConnectButton.Custom>
       {({
@@ -96,30 +58,7 @@ const ConnectWallet: React.FC = () => {
               }
               return (
                 <div className="flex gap-4">
-                  <button
-                    onClick={openChainModal}
-                    className="flex items-center hover:ring-2 ring-gray-600  gap-2 bg-gray-800  duration-300 ease-out py-1.5 px-3 rounded-md"
-                    type="button"
-                  >
-                    {chain.hasIcon && (
-                      <div
-                        style={{
-                          background: chain.iconBackground,
-                        }}
-                        className="rounded-full  overflow-hidden"
-                      >
-                        {chain.iconUrl && (
-                          <img
-                            alt={chain.name ?? "Chain icon"}
-                            src={chain.iconUrl}
-                            className="h-6 w-6"
-                          />
-                        )}
-                      </div>
-                    )}
-                    {chain.name}
-                    <HiOutlineChevronDown className="h-5 w-5" />
-                  </button>
+
                   <button
                     className="flex font-medium hover:ring-2 ring-gray-600 items-center  bg-gray-800 duration-300 ease-out p-1 rounded-md"
                     onClick={openAccountModal}

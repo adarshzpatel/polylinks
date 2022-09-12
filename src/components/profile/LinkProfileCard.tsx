@@ -10,23 +10,34 @@ import {
 } from "react-icons/tb";
 import { LinkItem } from "src/pages/[name]/edit";
 
-
-
 type ProfileData = {
-  displayName:string 
-  username:string 
-  bio:string 
-  coverURI:string 
-  socials: LinkItem[]
-  links: LinkItem[]
-}
+  displayName: string;
+  username: string;
+  bio: string;
+  coverURI: string;
+  socials: SocialLinks;
+  links: LinkItem[];
+};
+
+type SocialLinks = {
+  twitter?: string;
+  linkedIn?: string;
+  instagram?: string;
+};
 
 const IMAGE_LINK =
   "https://i.pinimg.com/736x/28/f9/e5/28f9e5b14cae615ff656d759cc6917e5.jpg";
 
-const LinkProfileCard = ({bio,coverURI,displayName,links,socials,username}: ProfileData) => {
+const LinkProfileCard = ({
+  bio,
+  coverURI,
+  displayName,
+  links,
+  socials,
+  username,
+}: ProfileData) => {
   return (
-    <Card className="max-w-md w-full">
+    <Card className="max-w-md w-full shadow-xl">
       <img
         src={IMAGE_LINK}
         className="h-40 w-full object-cover object-center"
@@ -36,7 +47,7 @@ const LinkProfileCard = ({bio,coverURI,displayName,links,socials,username}: Prof
           {/* <Avatar src={IMAGE_LINK} /> */}
           <div>
             <p className="text-2xl font-medium">{displayName}</p>
-              <a className="text-brand-400 font-medium">@ {username}</a>
+            <a className="text-brand-400 font-medium">@ {username}</a>
             <div className="mt-2 flex items-center gap-2">
               <SocialMediaIcon
                 icon={TbBrandTwitter}
