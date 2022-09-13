@@ -65,7 +65,7 @@ export default NextAuth({
     async session({ session, token }) {
       session.expires = (token as unknown as ISession).user.expirationTime;
       (session as unknown as ISession).user = (token as unknown as ISession).user;
-      return session;
+      return session ;
     },
   },
   session: {
