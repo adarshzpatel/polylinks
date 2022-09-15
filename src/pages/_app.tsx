@@ -10,6 +10,7 @@ import {
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "react-hot-toast";
 
 const { provider, webSocketProvider, chains } = configureChains(
   [chain.polygonMumbai],
@@ -49,6 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <WagmiConfig client={client}>
       <SessionProvider session={pageProps.session} refetchInterval={0}>
         {/* <RainbowKitProvider coolMode theme={customTheme} chains={chains}> */}
+          <Toaster />
           <Component {...pageProps} />
         {/* </RainbowKitProvider> */}
       </SessionProvider>

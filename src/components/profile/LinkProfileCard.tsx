@@ -8,32 +8,14 @@ import {
   TbBrandYoutube,
   TbMail,
 } from "react-icons/tb";
-import { LinkItem } from "src/pages/edit/[tokenId]";
+import { LinkType, ProfileData } from "types/nft";
 
-type ProfileData = {
-  displayName: string;
-  username: string;
-  bio: string;
-  coverURI: string;
-  socials: SocialLinks;
-  links: LinkItem[];
-};
-
-type SocialLinks = {
-  twitter?: string;
-  linkedIn?: string;
-  instagram?: string;
-};
 
 const IMAGE_LINK =
   "https://i.pinimg.com/736x/28/f9/e5/28f9e5b14cae615ff656d759cc6917e5.jpg";
 
 const LinkProfileCard = ({
-  bio,
-  coverURI,
   displayName,
-  links,
-  socials,
   username,
 }: ProfileData) => {
   return (

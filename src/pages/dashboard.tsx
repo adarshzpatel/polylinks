@@ -16,14 +16,8 @@ type Props = {
 };
 
 const DashboardPage = ({ nftsOwned, isAuthenticated }: Props) => {
-  const { openConnectModal } = useConnectModal();
 
   // if the user is not authenticated , open the connect modal
-  useEffect(() => {
-    if (isAuthenticated && openConnectModal) {
-      openConnectModal();
-    }
-  }, [openConnectModal, isAuthenticated]);
 
   if (!isAuthenticated) {
     return <AppContainer>Please connect your wallet !</AppContainer>;
@@ -50,10 +44,9 @@ const DashboardPage = ({ nftsOwned, isAuthenticated }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
-  await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
+await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
 
   if (session) {
-    console.log(session.user);
     const nftApiResponse = await Moralis.EvmApi.nft.getWalletNFTs({
       address: session?.user?.address,
       tokenAddresses: [POLYLINK_CONTRACT_ADDRESS],
@@ -71,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       isAuthenticated: session ? true : false,
-      nftsOwned: {},
+      nftsOwned: [],
     },
   };
 };

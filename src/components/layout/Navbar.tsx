@@ -1,6 +1,6 @@
 import Button from "@components/ui/Button";
 import axios from "axios";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -10,7 +10,7 @@ import Logo from "./Logo";
 type Props = {};
 
 const Navbar = (props: Props) => {
-  const { address } = useAccount();
+  const {data:session,status} = useSession();
 
   const { connectAsync } = useConnect();
   const { disconnectAsync } = useDisconnect();
@@ -25,7 +25,7 @@ const Navbar = (props: Props) => {
 
     if (!window.ethereum) {
       alert("Please install Metamask wallet");
-      return
+      return;
     }
     const { account, chain } = await connectAsync({
       connector: new MetaMaskConnector(),
@@ -73,8 +73,8 @@ const Navbar = (props: Props) => {
       <nav className="flex max-w-screen-lg mx-auto justify-between">
         <Logo />
         {/* <Button loading variant="primary">Connect Wallet</Button> */}
-        <button onClick={handleDisconnect}>{address}</button>
-        {!address && (
+        {session && <button onClick={handleDisconnect}>{session?.user?.address as string}</button>}
+        {!session && (
           <Button variant="primary" onClick={handleAuth}>
             Connect
           </Button>

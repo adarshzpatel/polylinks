@@ -7,7 +7,7 @@ import { Input } from "@components/ui/Input";
 import LinkCard from "@components/ui/LinkCard";
 import { TextArea } from "@components/ui/TextArea";
 import React, { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { SubmitHandler } from "react-hook-form/dist/types";
 import { IoMdClose } from "react-icons/io";
 import { HiPlus } from "react-icons/hi";
@@ -19,12 +19,9 @@ import {
   TbBrandYoutube,
   TbMail,
 } from "react-icons/tb";
+import { GetServerSideProps } from "next";
+import { LinkType, NftFormData } from "types/nft";
 type Props = {};
-
-export type LinkItem = {
-  title: string;
-  url: string;
-};
 
 const EditPage = (props: Props) => {
   const {
@@ -32,14 +29,14 @@ const EditPage = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<any>();
+  } = useForm<NftFormData>();
 
-  const [links, setLinks] = useState<LinkItem[]>([
+  const [links, setLinks] = useState<LinkType[]>([
     { title: "test", url: "test.com" },
   ]);
   const [showAddLinkModal, setShowAddLinkModal] = useState<boolean>(false);
 
-  const handleAddlink = (newLink: LinkItem) => {
+  const handleAddlink = (newLink: LinkType) => {
     setLinks((links) => [...links, newLink]);
   };
 
@@ -50,9 +47,13 @@ const EditPage = (props: Props) => {
   const deleteLink = (i: number) => {
     setLinks((links) => links.filter((_, idx) => idx !== i));
   };
+
+
   const updateData: SubmitHandler<any> = (data) => {
-    console.log(data);
+    console.log({...data,links});
   };
+
+
 
   return (
     <>
@@ -125,38 +126,38 @@ const EditPage = (props: Props) => {
                   pre={<TbBrandTwitter className="h-6 w-6" />}
                   label="Twitter"
                   placeholder="Enter Twitter Link"
-                  {...register("twitter")}
+                  {...register("socials.twitter")}
                 />
                 <Input
                   pre={<TbBrandGithub className="h-6 w-6" />}
                   label="Github"
                   placeholder="Enter Github Link"
-                  {...register("github")}
+                  {...register("socials.github")}
                 />
                 <Input
                   pre={<TbBrandInstagram className="h-6 w-6" />}
                   label="Instagram"
                   placeholder="Enter Instagram Link"
-                  {...register("instagram")}
+                  {...register("socials.instagram")}
                 />
                 <Input
                   pre={<TbBrandLinkedin className="h-6 w-6" />}
                   label="LinkedIn"
                   placeholder="Enter LinkedIn Link"
-                  {...register("linkedin")}
+                  {...register("socials.linkedIn")}
                 />
                 <Input
                   pre={<TbBrandYoutube className="h-6 w-6" />}
                   label="YouTube"
                   placeholder="Enter Youtube Link"
-                  {...register("youtube")}
+                  {...register("socials.youtube")}
                 />
                 <Input
                   pre={<TbMail className="h-6 w-6" />}
                   label="Email"
                   type="email"
                   placeholder="Enter email"
-                  {...register("email")}
+                  {...register("socials.email")}
                 />
 
                 {/* <Input
@@ -170,7 +171,7 @@ const EditPage = (props: Props) => {
           <div className="h-[0.5px] bg-gray-800" />
           <div className="flex gap-4">
             <Button variant="primary">View Preview</Button>
-            <Button variant="success" loading>
+            <Button variant="success" type="submit">
               Save Changes
             </Button>
           </div>
@@ -183,6 +184,23 @@ const EditPage = (props: Props) => {
       </AppContainer>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  /*
+  1. Fetch data from tableland
+  2. Check if the user owns the tokenId 
+  3. Redirect if not owner   
+  */
+
+  // fetch data from tableland
+
+
+  return {
+    props: {
+      previousData: {},
+    },
+  };
 };
 
 export default EditPage;

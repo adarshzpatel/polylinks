@@ -16,13 +16,14 @@ contract PolyLink is ERC721, ERC721URIStorage, Ownable {
 
     constructor() ERC721("PolyLink", "POLY") {}
 
-    function safeMint(address to, string memory name,string memory uri) public onlyOwner {
+    function safeMint(address to, string memory name,string memory uri) public onlyOwner returns(uint256){
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
         namesToOwners[name] = to;
         tokenIdToName[tokenId] = name;
         _setTokenURI(tokenId, uri);
+        return tokenId;
     }
 
     // Add custom transfer functions
@@ -42,5 +43,9 @@ contract PolyLink is ERC721, ERC721URIStorage, Ownable {
         returns (string memory)
     {
         return super.tokenURI(tokenId);
+    }
+
+    function totalSupply() public view returns(uint256){
+        return _tokenIdCounter.current();
     }
 }

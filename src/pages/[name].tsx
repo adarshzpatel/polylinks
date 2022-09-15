@@ -11,8 +11,8 @@ const LinkProfilePage = (props: Props) => {
   const router = useRouter();
   const name = router.query.name as string;
 
-  if(loading) {
-    return <Loading/>
+  if (loading) {
+    return <Loading />;
   }
   const getProfileData = async () => {
     setLoading(true);
@@ -21,7 +21,9 @@ const LinkProfilePage = (props: Props) => {
       chain: "polygon-mumbai",
       network: "testnet",
     });
-    const res = await tableland.read(`SELECT * FROM polylinks_80001_1848 WHERE username = ${name}`);
+    const res = await tableland.read(
+      `SELECT * FROM polylinks_80001_1848 WHERE username = ${name}`
+    );
     console.log(res);
     setLoading(false);
     setLoading(false);
@@ -30,9 +32,10 @@ const LinkProfilePage = (props: Props) => {
   return (
     // <AppContainer>
     <div className="flex items-center justify-center min-h-screen">
-      <button onClick={getProfileData}>Get Dta</button>
       {/* <Link href={`${name}/edit`}>Edit my Page</Link> */}
       <LinkProfileCard
+        owner={"0xasdwf"}
+        tokenId={0}
         username={name}
         bio="Placeholder bio"
         displayName={name}
