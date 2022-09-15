@@ -39,7 +39,7 @@ const DashboardPage = ({ nftsOwned, isAuthenticated }: Props) => {
       <h6 className="mb-4 text-xl uppercase font-bold text-gray-400">
         Link Nfts Owned
       </h6>
-      <div className="flex gap-8">
+      <div className="flex flex-col gap-8">
         {nftsOwned?.map((item) => (
           <LinkNftCard key={item?.token_id} tokenData={item} />
         ))}
@@ -53,6 +53,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
 
   if (session) {
+    console.log(session.user);
     const nftApiResponse = await Moralis.EvmApi.nft.getWalletNFTs({
       address: session?.user?.address,
       tokenAddresses: [POLYLINK_CONTRACT_ADDRESS],

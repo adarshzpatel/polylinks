@@ -1,6 +1,6 @@
 import React from "react";
 import { FiExternalLink } from "react-icons/fi";
-import { LinkItem } from "src/pages/[name]/edit";
+import { LinkItem } from "src/pages/edit/[tokenId]";
 
 const LinkCard = ({ title, url }: LinkItem) => {
   return (

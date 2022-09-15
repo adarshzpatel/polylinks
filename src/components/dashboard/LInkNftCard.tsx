@@ -16,7 +16,7 @@ const LinkNftCard = ({ tokenData }: Props) => {
     <div className="bg-gray-800/75 w-full hover:shadow-xl  p-4 rounded-lg  hover:ring-1  ring-gray-600 hover:ring-brand-400 hover:bg-brand-900/20 flex items-center justify-between gap-2 duration-200 ease-out hover:text-brand-300 ">
       <p className="text-xl font-bold ml-2">/ {metadata.name}</p>
       <div className="space-x-3">
-        <Link href={`/${metadata.name}/edit`}>
+        <Link href={`/edit/${tokenData.token_id}`}>
           <Button variant="success">Edit</Button>
         </Link>
         <Link href={"/" + metadata.name}>

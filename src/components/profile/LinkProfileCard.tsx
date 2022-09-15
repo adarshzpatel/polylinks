@@ -8,7 +8,7 @@ import {
   TbBrandYoutube,
   TbMail,
 } from "react-icons/tb";
-import { LinkItem } from "src/pages/[name]/edit";
+import { LinkItem } from "src/pages/edit/[tokenId]";
 
 type ProfileData = {
   displayName: string;
