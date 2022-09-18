@@ -19,25 +19,43 @@ import {
   TbBrandYoutube,
   TbMail,
 } from "react-icons/tb";
-import { GetServerSideProps } from "next";
-import { LinkType, NftFormData } from "types/nft";
-type Props = {};
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { LinkType, NftFormData, ProfileDataSchema, Socials } from "types/nft";
+import { getProfileDataById, updateProfileData } from "src/lib/tableland";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import LinkNftCard from "@components/dashboard/LInkNftCard";
+import LinkProfileCard from "@components/profile/LinkProfileCard";
+import { link } from "fs";
 
-const EditPage = (props: Props) => {
+type Props = {
+  tokenId: string;
+  prevValues: ProfileDataSchema;
+};
+
+const EditPage = ({ tokenId, prevValues }: Props) => {
   const {
-    control,
     register,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm<NftFormData>();
-
-  const [links, setLinks] = useState<LinkType[]>([
-    { title: "test", url: "test.com" },
-  ]);
+  } = useForm<NftFormData>({
+    defaultValues: {
+      displayName: prevValues?.displayname,
+      bio: prevValues?.bio,
+      socials: prevValues?.socials as Socials,
+    },
+  });
+  const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [links, setLinks] = useState<any>(prevValues.links || []);
   const [showAddLinkModal, setShowAddLinkModal] = useState<boolean>(false);
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
+  const [coverThumbnail, setCoverThumbnail] = useState<string>("");
+  const router = useRouter();
   const handleAddlink = (newLink: LinkType) => {
-    setLinks((links) => [...links, newLink]);
+    setLinks((links: any) => [...links, newLink]);
   };
 
   const closeModal = () => {
@@ -45,37 +63,83 @@ const EditPage = (props: Props) => {
   };
 
   const deleteLink = (i: number) => {
-    setLinks((links) => links.filter((_, idx) => idx !== i));
+    setLinks((links: any) => links.filter((_: any, idx: number) => idx !== i));
   };
 
+  const updateData: SubmitHandler<NftFormData> = async (data) => {
+    // const socialsBlob = new Blob([JSON.stringify({''})]);
+    // const owner = prevValues.owner
 
-  const updateData: SubmitHandler<any> = (data) => {
-    console.log({...data,links});
+    setLoading(true);
+    try {
+      await axios
+        .post("/api/update-profile", {
+          data: {
+            owner: prevValues?.owner,
+            tokenid: Number(tokenId),
+            bio: data.bio,
+            displayname: data.displayName,
+            links: JSON.stringify(links),
+            socials: JSON.stringify(data.socials),
+            coverImage: coverImage || null,
+          },
+        })
+        .then((res) => res.data);
+      router.push("/" + prevValues?.username);
+    } catch (err) {
+      console.error(err);
+      toast.error("Oops, something went wrong!!");
+    }
+    setLoading(false);
   };
-
-
 
   return (
     <>
+      {isPreviewOpen && (
+        <div className="fixed flex-col gap-8 inset-0 bg-gray-900 z-50 flex items-center justify-center">
+          <p className="text-gray-600">PREVIEW</p>
+          <LinkProfileCard
+            bio={watch("bio")}
+            displayName={watch("displayName")}
+            links={links}
+            socials={watch("socials") || {}}
+            owner={prevValues.owner}
+            tokenId={prevValues.tokenid}
+            username={prevValues.username}
+            coverURI={coverThumbnail}
+          />
+          <Button variant="primary" className="max-w-md w-full" onClick={() => setIsPreviewOpen(false)}>
+            Back to Edit
+          </Button>
+        </div>
+      )}
       <AddNewLinkModal
         isOpen={showAddLinkModal}
         closeModal={closeModal}
         handleAddLink={handleAddlink}
       />
       <AppContainer>
-        <h2 className="text-2xl font-bold border-l-4 mb-8 border-gray-600 pl-4 py-1">
-          Edit my page
-        </h2>
-
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold border-l-4  border-gray-600 pl-4 py-1">
+            Edit{" "}
+            <span className="text-brand-400">/ {prevValues?.username} </span>
+          </h2>
+          <div className="bg-gray-700/50 py-1 px-2 rounded-lg text-sm font-medium">
+            Token ID : {tokenId}
+          </div>
+        </div>
         <form
           onSubmit={handleSubmit(updateData)}
           className="flex flex-col gap-8"
         >
+          <UploadCoverDropzone
+            thumbnail={coverThumbnail}
+            setThumbnail={setCoverThumbnail}
+            file={coverImage}
+            setFile={setCoverImage}
+          />
           {/* <p className="text-2xl font-bold text-brand-400">@username</p> */}
-          <div className="flex flex-wrap-reverse sm:flex-nowrap gap-8">
-            <UploadCoverDropzone />
-            <UploadAvatarDropzone />
-          </div>
+          <div className="flex flex-wrap-reverse sm:flex-nowrap gap-8"></div>
           <div className="h-[0.5px] bg-gray-800" />
           <div className="grid md:grid-cols-5 gap-8">
             <div className="space-y-4 col-span-3">
@@ -96,7 +160,7 @@ const EditPage = (props: Props) => {
               <p className="text-xl uppercase text-gray-600 font-bold">Links</p>
               <div className="h-[0.5px] bg-gray-800" />
 
-              {links?.map((link, i) => (
+              {links?.map((link: LinkType, i: number) => (
                 <div key={link.title} className="flex items-center gap-2">
                   <LinkCard title={link.title} url={link.url} />
                   <button
@@ -112,6 +176,7 @@ const EditPage = (props: Props) => {
                 variant="secondary"
                 className="border-dashed"
                 outline
+                type="button"
                 onClick={() => setShowAddLinkModal(true)}
               >
                 Add New Link
@@ -170,8 +235,14 @@ const EditPage = (props: Props) => {
           </div>
           <div className="h-[0.5px] bg-gray-800" />
           <div className="flex gap-4">
-            <Button variant="primary">View Preview</Button>
-            <Button variant="success" type="submit">
+            <Button
+              type="button"
+              onClick={() => setIsPreviewOpen(true)}
+              variant="primary"
+            >
+              View Preview
+            </Button>
+            <Button loading={loading} variant="success" type="submit">
               Save Changes
             </Button>
           </div>
@@ -186,7 +257,7 @@ const EditPage = (props: Props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   /*
   1. Fetch data from tableland
   2. Check if the user owns the tokenId 
@@ -194,11 +265,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
   */
 
   // fetch data from tableland
-
-
+  const tokenId = context?.params?.tokenId as string;
+  const prevValues = await getProfileDataById(tokenId);
   return {
     props: {
-      previousData: {},
+      tokenId,
+      prevValues,
     },
   };
 };

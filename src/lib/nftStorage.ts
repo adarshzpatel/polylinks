@@ -1,4 +1,4 @@
-import { NFTStorage, } from "nft.storage";
+import { NFTStorage, Blob} from "nft.storage";
 
 const token = process.env.NFT_STORAGE_KEY
 

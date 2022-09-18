@@ -34,8 +34,7 @@ export type LinkType = {
 export type NftFormData = {
   displayName: string;
   bio: string;
-  socials: Socials;
-  links: LinkType[];
+  socials?:Socials ;
   coverURI: string;
 };
 
@@ -52,10 +51,10 @@ export type ProfileData = {
 
 export type ProfileDataSchema = {
   owner: string;
-  tokenId: integer;
+  tokenid: integer;
   username: string;
-  displayName: string;
+  displayname: string;
   bio: string;
-  socials: Blob;
-  links: Blob;
+  socials: unknown;
+  links: unknown;
 };

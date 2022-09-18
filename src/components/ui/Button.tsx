@@ -22,13 +22,13 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
             ref={ref}
             className={clsx(
                 {
-                    'bg-brand-500 hover:bg-brand-600 active:bg-brand-600 hover:disabled:bg-brand-500 focus:ring-1 ring-brand-200 text-white ':
+                    'border shadow-lg hover:shadow-xl hover:text-brand-200 border-brand-400 hover:bg-brand-900/40   bg-brand-900/20 text-brand-400 ':
                     !outline && variant === 'primary',
-                    'bg-zinc-400/60 hover:bg-zinc-300 active:bg-zinc-300  text-black focus:ring-1 ring-brand-200':
+                    'border shadow-lg hover:shadow-xl hover:text-gray-200 border-gray-500 hover:border-gray-300 hover:bg-gray-800/40   bg-gray-800/20 text-gray-400':
                     !outline && variant === 'secondary',
-                    'bg-emerald-600 hover:bg-emerald-600/75 active:bg-emerald-600/75  focus:ring-1 ring-emerald-100 text-white':
+                    'border shadow-lg hover:shadow-xl hover:text-emerald-200 border-emerald-400 hover:bg-emerald-900/40   bg-emerald-900/20 text-emerald-400':
                     !outline && variant === 'success',
-                    'bg-rose-600 hover:bg-rose-600/75 active:bg-rose-600/75  focus:ring-1 ring-rose-100 text-white':
+                    'border shadow-lg hover:shadow-xl hover:text-rose-200 border-rose-400 hover:bg-rose-900/40   bg-rose-900/20 text-rose-400':
                     !outline && variant === 'danger',
                     
                     'border-brand-500 bg-brand-800/10 hover:bg-brand-800/20 active:bg-brand-600/10 focus:bg-brand-600/10 focus:outline-none focus:ring-0 text-brand-400 ': outline && variant === 'primary',
@@ -36,7 +36,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                     'border ':outline,
                     'flex items-center  justify-center gap-2': (icon || loading) && children,
                     'px-3 py-1 text-sm ':size === 'sm',
-                    'px-4 py-1.5 text-base':size === 'md',
+                    'px-4 py-2 text-base':size === 'md',
                     'sm:px-12 px-6 py-2 sm:py-3 sm:text-lg':size === 'lg',
                     '': size === 'none'
                 },

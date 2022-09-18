@@ -12,6 +12,8 @@ const SocialMediaIcon = ({ icon: Icon, href, name }: SocialMediaIconProps) => {
     <Tooltip content={name}>
       <a
         href={href}
+        target="_blank"
+        rel="noreferrer"
         className="bg-gray-700/50 duration-300 ease-out  rounded-lg text-gray-400 hover:ring-1 hover:ring-brand-400 hover:text-brand-400 hover:bg-brand-700/20  p-2"
       >
         <Icon className="h-6 w-6 " />

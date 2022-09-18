@@ -1,8 +1,8 @@
 import React from "react";
 import { FiExternalLink } from "react-icons/fi";
-import { LinkItem } from "src/pages/edit/[tokenId]";
+import { LinkType } from "types/nft";
 
-const LinkCard = ({ title, url }: LinkItem) => {
+const LinkCard = ({ title, url }: LinkType) => {
   return (
     <div className="w-full">
       <a

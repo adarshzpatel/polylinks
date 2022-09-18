@@ -3,10 +3,9 @@ import "../styles/globals.css";
 import { createClient, configureChains, chain, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import {
-  getDefaultWallets,
-  // RainbowKitProvider,
-  // darkTheme,
-  // Theme,
+  darkTheme,
+  getDefaultWallets, RainbowKitProvider, Theme,
+
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { SessionProvider } from "next-auth/react";
@@ -30,29 +29,29 @@ const client = createClient({
   connectors,
 });
 
-// const customDarkTheme = darkTheme({
-//   accentColor: "#8b5cf6",
-//   accentColorForeground: "white",
-//   borderRadius: "medium",
-//   overlayBlur: "small",
-// });
+const customDarkTheme = darkTheme({
+  accentColor: "#8b5cf6",
+  accentColorForeground: "white",
+  borderRadius: "medium",
+  overlayBlur: "small",
+});
 
-// const customTheme: Theme = {
-//   ...customDarkTheme,
-//   colors: {
-//     ...customDarkTheme.colors,
-//     connectButtonBackground: "rgba(63, 63, 70, 0.15)",
-//   },
-// };
+const customTheme: Theme = {
+  ...customDarkTheme,
+  colors: {
+    ...customDarkTheme.colors,
+    connectButtonBackground: "rgba(63, 63, 70, 0.15)",
+  },
+};
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={client}>
       <SessionProvider session={pageProps.session} refetchInterval={0}>
-        {/* <RainbowKitProvider coolMode theme={customTheme} chains={chains}> */}
+        <RainbowKitProvider coolMode theme={customTheme} chains={chains}>
           <Toaster />
           <Component {...pageProps} />
-        {/* </RainbowKitProvider> */}
+        </RainbowKitProvider>
       </SessionProvider>
     </WagmiConfig>
   );

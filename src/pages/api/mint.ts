@@ -10,6 +10,7 @@ import { Blob } from "nft.storage";
 import axios from "axios";
 import { createNewProfileDataRow } from "src/lib/tableland";
 import { TbX } from "react-icons/tb";
+import generateImage from "src/lib/generateNftImage";
 
 /*
  api route : /mint
@@ -52,9 +53,8 @@ export default async function mintLink(
 
     // Generate & upload to ipfs/filecoin Dynamic Image for nft using
     console.log('Generating & uploading nft image')
-    const imageDataURL = await axios
-      .get("/api/generate-image/" + name)
-      .then((res) => res.data.dataURL);
+    const imageDataURL = await generateImage(name)
+    if(!imageDataURL) throw new Error("Failed to generate nft image, aborting process !!")
     const imageBlob = new Blob([imageDataURL]);
     const imageCid = await storeToIpfs(imageBlob);
     console.log('Generating & uploading nft image successful')
@@ -64,7 +64,7 @@ export default async function mintLink(
 
     const metadata = {
       name: name,
-      image: imageCid || "",
+      image: "ipfs://" + imageCid || "",
       external_url: "polylink.vercel.app",
       description: "Professionally showcase all your links in one place",
     };
@@ -82,13 +82,14 @@ export default async function mintLink(
     await mintTx.wait();
     console.log('Mint successfull')
 
-    console.log(mintTx);
-    const id = 0;
+    const id = await nftContract.totalSupply();
+    console.log(id)
     console.log("Creating empty profile data")
     await createNewProfileDataRow({
       username: name,
-      tokenId: 0,
+      tokenId: id-1,
       owner: claimAddress,
+      signer
     });
     console.log('Tableland row created')
     

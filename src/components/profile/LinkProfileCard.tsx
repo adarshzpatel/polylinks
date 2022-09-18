@@ -4,12 +4,14 @@ import { FiExternalLink } from "react-icons/fi";
 import {
   TbBrandDiscord,
   TbBrandGithub,
+  TbBrandInstagram,
+  TbBrandLinkedin,
   TbBrandTwitter,
   TbBrandYoutube,
   TbMail,
 } from "react-icons/tb";
+import { POLYLINK_CONTRACT_ADDRESS } from "smart-contract/contract";
 import { LinkType, ProfileData } from "types/nft";
-
 
 const IMAGE_LINK =
   "https://i.pinimg.com/736x/28/f9/e5/28f9e5b14cae615ff656d759cc6917e5.jpg";
@@ -17,81 +19,96 @@ const IMAGE_LINK =
 const LinkProfileCard = ({
   displayName,
   username,
+  links,
+  socials,
+  bio,
+  tokenId
 }: ProfileData) => {
   return (
     <Card className="max-w-md w-full shadow-xl">
       <img
         src={IMAGE_LINK}
-        className="h-40 w-full object-cover object-center"
+        className="h-[252px] w-full object-cover object-center"
       />
       <div className="p-6 space-y-3">
         <div className="flex items-center gap-4">
           {/* <Avatar src={IMAGE_LINK} /> */}
           <div>
             <p className="text-2xl font-medium">{displayName}</p>
-            <a className="text-brand-400 font-medium">@ {username}</a>
+            <a href={`https://testnets.opensea.io/assets/mumbai/${POLYLINK_CONTRACT_ADDRESS}/${tokenId}`} className="text-brand-400 font-medium">@ {username}</a>
             <div className="mt-2 flex items-center gap-2">
-              <SocialMediaIcon
-                icon={TbBrandTwitter}
-                href="https://twitter.com"
-                name="Twitter"
-              />
-              <SocialMediaIcon
-                icon={TbBrandDiscord}
-                href="https://twitter.com"
-                name="Discord"
-              />
-              <SocialMediaIcon
-                icon={TbBrandGithub}
-                href="https://twitter.com"
-                name="Github"
-              />
-              <SocialMediaIcon
-                icon={TbMail}
-                href="https://twitter.com"
-                name="TbMail"
-              />
-              <SocialMediaIcon
-                icon={TbBrandYoutube}
-                href="https://twitter.com"
-                name="Youtube"
-              />
+              {socials.twitter && (
+                <SocialMediaIcon
+                  icon={TbBrandTwitter}
+                  href={socials.twitter}
+                  name="Twitter"
+                />
+              )}
+              {socials.discord && (
+                <SocialMediaIcon
+                  icon={TbBrandDiscord}
+                  href={socials.discord}
+                  name="Discord"
+                />
+              )}
+              {socials.github && (
+                <SocialMediaIcon
+                  icon={TbBrandGithub}
+                  href={socials.github}
+                  name="Github"
+                />
+              )}
+              {socials.email && (
+                <SocialMediaIcon
+                  icon={TbMail}
+                  href={"mailto:" + socials.email}
+                  name="TbMail"
+                />
+              )}
+              {socials.youtube && (
+                <SocialMediaIcon
+                  icon={TbBrandYoutube}
+                  href="https://twitter.com"
+                  name="Youtube"
+                />
+              )}
+              {socials.linkedIn && (
+                <SocialMediaIcon
+                  icon={TbBrandLinkedin}
+                  href={socials.linkedIn}
+                  name="LinkedIn"
+                />
+              )}
+              {socials.instagram && (
+                <SocialMediaIcon
+                  icon={TbBrandInstagram}
+                  href={socials.instagram}
+                  name="Instagram"
+                />
+              )}
             </div>
           </div>
         </div>
         <div>
-          <p className="text-gray-400">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quos
-            eius atque iste tempora provident soluta sunt fugit sed .
+          <p className="text-gray-400 ">
+            {bio}
           </p>
         </div>
         <div>
           {/* <p className="font-bold tracking-wider text-gray-400">LINKS</p> */}
           <div className="space-y-3 mt-6">
-            <a
-              href="#"
-              target="_blank"
-              rel="noreferrer"
-              className="bg-gray-800/75 hover:shadow-xl py-2 px-4 rounded-lg  hover:ring-1  ring-gray-600 hover:ring-brand-400 hover:bg-brand-900/20 flex items-center justify-between gap-2 duration-300 ease-out hover:text-brand-300 "
-            >
-              Link Title <FiExternalLink />
-            </a>
-            <a
-              href="#"
-              target="_blank"
-              rel="noreferrer"
-              className="bg-gray-800/75 hover:shadow-xl py-2 px-4 rounded-lg  hover:ring-1  ring-gray-600 hover:ring-brand-400 hover:bg-brand-900/20 flex items-center justify-between gap-2 duration-300 ease-out hover:text-brand-300 "
-            >
-              Link Title <FiExternalLink />
-            </a>
-            <a
-              href="#"
-              target="_blank"
-              rel="noreferrer"
-              className="bg-gray-800/75 hover:shadow-xl py-2 px-4 rounded-lg  hover:ring-1  ring-gray-600 hover:ring-brand-400 hover:bg-brand-900/20 flex items-center justify-between gap-2 duration-300 ease-out hover:text-brand-300 "
-            >
-              Link Title <FiExternalLink />
-            </a>
+            {links?.map((item, id: number) => (
+              <a
+                key={id}
+                href={item.url}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-gray-800/75 hover:shadow-xl py-2 px-4 rounded-lg  hover:ring-1  ring-gray-600 hover:ring-brand-400 hover:bg-brand-900/20 flex items-center justify-between gap-2 duration-300 ease-out hover:text-brand-300 "
+              >
+                {item?.title || "Unknown Link"}
+                <FiExternalLink />
+              </a>
+            ))}
           </div>
         </div>
       </div>
