@@ -64,8 +64,8 @@ const UploadCoverDropzone = ({
   }, [isDragReject]);
 
   return (
-    <div className="max-w-md">
-      <div className="mb-4 font-sora font-medium text-gray-200">
+    <div className="max-w-md w-full">
+      <div className="mb-2 font-sora font-medium text-gray-200">
         Choose Cover Picture
       </div>
       <div {...getRootProps()}>

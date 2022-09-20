@@ -108,7 +108,11 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
             username={prevValues.username}
             coverURI={coverThumbnail}
           />
-          <Button variant="primary" className="max-w-md w-full" onClick={() => setIsPreviewOpen(false)}>
+          <Button
+            variant="primary"
+            className="max-w-md w-full"
+            onClick={() => setIsPreviewOpen(false)}
+          >
             Back to Edit
           </Button>
         </div>
@@ -132,17 +136,11 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
           onSubmit={handleSubmit(updateData)}
           className="flex flex-col gap-8"
         >
-          <UploadCoverDropzone
-            thumbnail={coverThumbnail}
-            setThumbnail={setCoverThumbnail}
-            file={coverImage}
-            setFile={setCoverImage}
-          />
           {/* <p className="text-2xl font-bold text-brand-400">@username</p> */}
           <div className="flex flex-wrap-reverse sm:flex-nowrap gap-8"></div>
           <div className="h-[0.5px] bg-gray-800" />
-          <div className="grid md:grid-cols-5 gap-8">
-            <div className="space-y-4 col-span-3">
+          <div className="flex flex-wrap gap-8">
+            <div className="space-y-4 flex-grow ">
               <Input
                 placeholder="Enter display name"
                 label="DisplayName"
@@ -182,11 +180,17 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
                 Add New Link
               </Button>
             </div>
-            <div className="col-span-2">
+            <div className="max-w-md flex-1 ">
               {/* <p className="font-bold text-lg text-gray-500  mb-4">
               Social Links
             </p> */}
-              <div className="space-y-4">
+              <div className="space-y-4 ">
+                <UploadCoverDropzone
+                  thumbnail={coverThumbnail}
+                  setThumbnail={setCoverThumbnail}
+                  file={coverImage}
+                  setFile={setCoverImage}
+                />
                 <Input
                   pre={<TbBrandTwitter className="h-6 w-6" />}
                   label="Twitter"
