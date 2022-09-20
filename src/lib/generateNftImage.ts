@@ -38,8 +38,9 @@ const generateImage = async (text: string) => {
     ctx.textAlign = "center";
     ctx.fillText(`/${text}`, canvas.width / 2, canvas.height / 2);
 
-    const dataURL = canvas.toDataURL();
-    return dataURL;
+    // const dataURL = canvas.toDataURL();
+    const buffer = canvas.toBuffer('image/jpeg')
+    return buffer;
   } catch (err) {
     console.log(err);
   }

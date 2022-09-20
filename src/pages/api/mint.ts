@@ -53,12 +53,11 @@ export default async function mintLink(
 
     // Generate & upload to ipfs/filecoin Dynamic Image for nft using
     console.log('Generating & uploading nft image')
-    const imageDataURL = await generateImage(name)
-    if(!imageDataURL) throw new Error("Failed to generate nft image, aborting process !!")
-    const imageBlob = new Blob([imageDataURL]);
+    const imageBuffer = await generateImage(name)
+    if(!imageBuffer) throw new Error("Failed to generate nft image, aborting process !!")
+    const imageBlob = new Blob([imageBuffer]);
     const imageCid = await storeToIpfs(imageBlob);
     console.log('Generating & uploading nft image successful')
-
 
     console.log('Generating & uploading metadata')
 

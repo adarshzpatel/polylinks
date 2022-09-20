@@ -14,9 +14,7 @@ import {
 } from "wagmi";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import Button from "@components/ui/Button";
-import { FiCopy, FiLogOut } from "react-icons/fi";
-import { HiLogout } from "react-icons/hi";
-import { IoMdLogOut } from "react-icons/io";
+import { FiCopy } from "react-icons/fi";
 import { TbLogout } from "react-icons/tb";
 import Tooltip from "@components/ui/Tooltip";
 
@@ -84,26 +82,29 @@ const ConnectWallet: React.FC = () => {
   return (
     <div className="flex items-center gap-4 ">
       <Link href={"/dashboard"}>
-        <Button>
-          Go to dashboard{" "}
-        </Button>
+        <Button>Go to dashboard </Button>
       </Link>
-      {!session && !signer  ? (
+      {!session && !signer && (
         <Button variant="primary" onClick={handleAuth}>
           Connect Wallet
         </Button>
-      ) : (
+      )}
+      {session && signer && (
         <div className="items-center justify-center flex gap-4">
           <Tooltip content="Copy Address">
             <Button variant="success" className="flex items-center  gap-3">
               {address?.slice(0, 4) + "..." + address?.slice(-5, -1)}
               <span>
-                <FiCopy className="h-5 w-5"/>
+                <FiCopy className="h-5 w-5" />
               </span>
             </Button>
           </Tooltip>
           <Tooltip content="Disconnect">
-            <Button variant="danger" onClick={handleDisconnect} className="!p-2">
+            <Button
+              variant="danger"
+              onClick={handleDisconnect}
+              className="!p-2"
+            >
               <TbLogout className="h-6 w-6" />
             </Button>
           </Tooltip>
