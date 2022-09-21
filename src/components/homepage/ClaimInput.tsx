@@ -10,7 +10,6 @@ import axios from "axios";
 
 type Props = {};
 
-
 const PRICE = 0.5;
 const ClaimInput = (props: Props) => {
   const [name, setName] = useState<string>("");
@@ -39,7 +38,6 @@ const ClaimInput = (props: Props) => {
   };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-   
     const _name = e.target.value;
     setName(_name);
     checkIfAvailable(_name);
@@ -48,16 +46,16 @@ const ClaimInput = (props: Props) => {
   const handleClaim = async () => {
     setLoading(true);
 
-    try {
-      if (!isConnected) throw new Error("Wallet Not Connected");
-      const mintReq = await axios.post("/api/mint", {
-        name,
-        claimAddress: address,
-      });
-      console.log(mintReq.data);
-    } catch (err) {
-      console.error(err);
-    }
+    // try {
+    //   if (!isConnected) throw new Error("Wallet Not Connected");
+    //   const mintReq = await axios.post("/api/mint", {
+    //     name,
+    //     claimAddress: address,
+    //   });
+    //   console.log(mintReq.data);
+    // } catch (err) {
+    //   console.error(err);
+    // }
 
     setLoading(false);
   };
@@ -68,50 +66,37 @@ const ClaimInput = (props: Props) => {
     try {
       const res = await polyLinkContract.namesToOwners(_name);
       console.log(res);
-      setIsAvailable(true)
-      if (res !== "0x0000000000000000000000000000000000000000") setIsAvailable(false);
+      setIsAvailable(true);
+      if (res !== "0x0000000000000000000000000000000000000000")
+        setIsAvailable(false);
     } catch (err) {
       console.log(err);
     }
-    console.log(isAvailable)
+    console.log(isAvailable);
     setLoading(false);
   };
 
   return (
-    <div>
-      <div className="flex items-center gap-2">
-        <Input
-          placeholder="Enter your dream name"
-          value={name}
-          onChange={handleChange}
-        />
+    <form className="flex flex-col  gap-4 ">
+      <Input
+        placeholder="Enter your dream name"
+        value={name}
+        onChange={handleChange}
+        pattern="[a-z0-9]"
+        minLength={1}
+        maxLength={12}
+      />
+      {
         <Button
-        loading={loading}
-         onClick={() => handleClaim()}
-          variant="primary"
-          className="!py-2 "
+          loading={loading}
+          disabled
+          onClick={() => handleClaim()}
+          className="!py-2 flex items-center justify-center "
         >
-          {!loading && "Claim" }
+          {!loading && !isAvailable && "Claim"}
         </Button>
-      </div>
-      {error !== "" && (
-        <span className="text-red-400  font-medium text-sm">{error}</span>
-      )}
-      <div className="mt-2">
-        {!isEmpty &&
-          (isAvailable ? (
-            <span className="text-green-500 uppercase font-medium text-sm">
-              {" "}
-              Available for {PRICE} MATIC
-            </span>
-          ) : (
-            <span className="text-red-400 uppercase font-medium text-sm">
-              {" "}
-              ALREADY TAKEN{" "}
-            </span>
-          ))}
-      </div>
-    </div>
+      }
+    </form>
   );
 };
 

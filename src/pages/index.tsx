@@ -1,11 +1,15 @@
+import ClaimModal from "@components/dashboard/ClaimModal";
 import Hero from "@components/homepage/Hero";
 import AppContainer from "@components/layout/AppContainer";
 import Button from "@components/ui/Button";
 import type { NextPage } from "next";
+import { useState } from "react";
 import { createNewProfileDataRow, createNewTable } from "src/lib/tableland";
 import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
+
+  const [claimModal,setClaimModal] = useState<boolean>(true)
   const { address } = useAccount();
   const handleCreateTable = async () => {
     try {
@@ -22,6 +26,7 @@ const Home: NextPage = () => {
   };
   return (
     <AppContainer>
+      <ClaimModal closeModal={()=>setClaimModal(false)} isOpen={claimModal} />
       <div>
         <Hero />
       </div>
