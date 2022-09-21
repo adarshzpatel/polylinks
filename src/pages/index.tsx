@@ -31,9 +31,6 @@ const Home: NextPage = () => {
         <Hero />
       </div>
       <Button onClick={createNewTable}>Create new table</Button>
-      <Button variant="primary" onClick={createNewTable}>Create new table</Button>
-      <Button variant="success" onClick={createNewTable}>Create new table</Button>
-      <Button variant="danger" onClick={createNewTable}>Create new table</Button>
 
     </AppContainer>
   );

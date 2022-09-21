@@ -18,7 +18,8 @@ const Spinner: React.FC<Props> = ({
       className={clsx(
         {
           "border-brand-900 border-t-white": variant === "primary",
-          "border-emerald-900/90 border-t-white": variant === "success",
+          "border-gray-500 border-t-white": variant === "secondary",
+          "border-emerald-900/90 border-t-emerald-300": variant === "success",
           "border-yellow-500/25 border-t-yellow-400": variant === "warning",
           "border-red-500/25 border-t-red-500": variant === "danger",
 

@@ -7,8 +7,12 @@ import {
   POLYLINK_CONTRACT_ADDRESS,
 } from "smart-contract/contract";
 import axios from "axios";
+import clsx from "clsx";
+import { toast } from "react-hot-toast";
 
 type Props = {};
+
+const validName = new RegExp('^[a-z0-9]')
 
 const PRICE = 0.5;
 const ClaimInput = (props: Props) => {
@@ -16,9 +20,8 @@ const ClaimInput = (props: Props) => {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [isAvailable, setIsAvailable] = useState<boolean>(true);
-  const { address, isConnected } = useAccount();
   const provider = useProvider({ chainId: chain.polygonMumbai.id });
-
+ const {isConnected, address} = useAccount();
   const polyLinkContract = useContract({
     addressOrName: POLYLINK_CONTRACT_ADDRESS,
     contractInterface: POLYLINK_ABI,
@@ -26,43 +29,44 @@ const ClaimInput = (props: Props) => {
   });
   // check if the name is available or taken
 
-  const isEmpty = name === "";
-
-  const validateInput = (s: string) => {
-    const n = s.length;
-    const valid = new RegExp("/^[a-z0-9]$/g");
-    if (valid.test(s)) {
-      setError("Invalid Input");
-    }
-    setError("");
-  };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const _name = e.target.value;
-    setName(_name);
+    const _name = e.target.value.toLowerCase();
+    setName(_name.replaceAll(" ","").replaceAll("/",''));
+    if(_name === "") {
+      setError('This field cannot be empty')
+      return
+    }
+    setError('')
+
+    console.log(validName.test(_name))
     checkIfAvailable(_name);
   };
 
+
+  const sendMatic = () => {
+
+  }
+
   const handleClaim = async () => {
     setLoading(true);
-
-    // try {
-    //   if (!isConnected) throw new Error("Wallet Not Connected");
-    //   const mintReq = await axios.post("/api/mint", {
-    //     name,
-    //     claimAddress: address,
-    //   });
-    //   console.log(mintReq.data);
-    // } catch (err) {
-    //   console.error(err);
-    // }
+    
+    try {
+      if (!isConnected) throw new Error("Wallet Not Connected");
+      const mintReq = await axios.post("/api/mint", {
+        name,
+        claimAddress: address,
+      });
+      console.log(mintReq.data);
+    } catch (err) {
+      console.error(err);
+    }
 
     setLoading(false);
   };
 
   const checkIfAvailable = async (_name: string) => {
     setLoading(true);
-
     try {
       const res = await polyLinkContract.namesToOwners(_name);
       console.log(res);
@@ -77,7 +81,7 @@ const ClaimInput = (props: Props) => {
   };
 
   return (
-    <form className="flex flex-col  gap-4 ">
+    <div className="flex flex-col  gap-4 ">
       <Input
         placeholder="Enter your dream name"
         value={name}
@@ -85,18 +89,33 @@ const ClaimInput = (props: Props) => {
         pattern="[a-z0-9]"
         minLength={1}
         maxLength={12}
-      />
-      {
+        error={error}
+      
+     />
+      <p className="text-xs text-gray-600 ">Only alphanumeric characters allowed ( a-z & 0-9 )</p>
+      {name && !loading && <div className={clsx(
+        {
+          "text-green-500 bg-green-600/10" : isAvailable
+          ,
+          "text-red-400 bg-red-700/10": !isAvailable,
+
+        },"text-sm p-2 px-4 rounded-md"
+        
+      )}>
+        {isAvailable ? `Available for ${PRICE} MATIC` : "Already taken , try something else"}
+        </div>}
+        {isAvailable &&
         <Button
           loading={loading}
-          disabled
+          variant="primary"
+          disabled={error !== ''}
           onClick={() => handleClaim()}
-          className="!py-2 flex items-center justify-center "
+          className="!py-2 flex items-center justify-center uppercase "
         >
-          {!loading && !isAvailable && "Claim"}
+          {loading ? "Checking availability" : "Claim Link"}
         </Button>
       }
-    </form>
+    </div>
   );
 };
 
