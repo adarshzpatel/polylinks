@@ -16,6 +16,7 @@ export default async function handler(
   const { address, chain, network } = req.body;
 
   await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
+  res.send("Everything fine till here")
   try {
     if (!DOMAIN || !URI) {
       throw new Error("Please add APP_DOMAIN in the .env.local");
