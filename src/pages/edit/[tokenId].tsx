@@ -31,6 +31,7 @@ import LinkProfileCard from "@components/profile/LinkProfileCard";
 import { link } from "fs";
 import { storeToIpfs } from "src/lib/nftStorage";
 import { ifError } from "assert";
+import { getSession } from "next-auth/react";
 
 type Props = {
   tokenId: string;
@@ -77,7 +78,6 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
 
     setLoading(true);
     try {
-
       await axios
         .post("/api/update-profile", {
           data: {
@@ -91,8 +91,8 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
           },
         })
         .then((res) => res.data);
-        toast.success("Edits saved successfully")
-        router.push("/" + prevValues?.username);
+      toast.success("Edits saved successfully");
+      router.push("/" + prevValues?.username);
     } catch (err) {
       console.error(err);
       toast.error("Oops, something went wrong!!");
@@ -270,9 +270,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   3. Redirect if not owner   
   */
 
-  // fetch data from tableland
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   const tokenId = context?.params?.tokenId as string;
   const prevValues = await getProfileDataById(tokenId);
+
+  if (session?.user.address !== prevValues.owner) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       tokenId,
