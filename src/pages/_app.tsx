@@ -3,18 +3,27 @@ import type { AppProps } from "next/app";
 import Router from "next/router";
 import "../styles/globals.css";
 import { createClient, configureChains, chain, WagmiConfig } from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
 import {
   darkTheme,
   getDefaultWallets,
   RainbowKitProvider,
   Theme,
 } from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import AppContainer from "@components/layout/AppContainer";
 import Loading from "@components/ui/Loading";
+import {
+  RainbowKitSiweNextAuthProvider,
+  GetSiweMessageOptions,
+} from "@rainbow-me/rainbowkit-siwe-next-auth";
+import { publicProvider } from "wagmi/providers/public";
+import "@rainbow-me/rainbowkit/styles.css";
+
+const getSiweMessageOptions: GetSiweMessageOptions = () => ({
+  statement: "Sign in to Revenue based defi app",
+});
+
 
 const { provider, webSocketProvider, chains } = configureChains(
   [chain.polygonMumbai],
@@ -73,12 +82,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <WagmiConfig client={client}>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <RainbowKitProvider coolMode theme={customTheme} chains={chains}>
-            <Toaster />
-            <AppContainer>
-              {loading ? <Loading /> : <Component {...pageProps} />}
-            </AppContainer>
-          </RainbowKitProvider>
+          <RainbowKitSiweNextAuthProvider
+            getSiweMessageOptions={getSiweMessageOptions}
+          >
+            <RainbowKitProvider coolMode theme={customTheme} chains={chains}>
+              <Toaster />
+              <AppContainer>
+                {loading ? <Loading /> : <Component {...pageProps} />}
+              </AppContainer>
+            </RainbowKitProvider>
+          </RainbowKitSiweNextAuthProvider>
         </SessionProvider>
       </WagmiConfig>
     </>

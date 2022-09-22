@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import AppContainer from "@components/layout/AppContainer";
 import Heading from "@components/ui/Heading";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import Moralis from "moralis";
 import { POLYLINK_CONTRACT_ADDRESS } from "smart-contract/contract";
 import { EvmChain, EvmNft } from "@moralisweb3/evm-utils";
-import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { MoralistNftResponse } from "types/nft";
 import LinkNftCard from "@components/dashboard/LInkNftCard";
 
@@ -34,6 +31,7 @@ const DashboardPage = ({ nftsOwned, isAuthenticated }: Props) => {
         ))}
         {nftsOwned?.length === 0 && "You do not own any nft"}
       </div>
+      
     </>
   );
 };
@@ -41,14 +39,13 @@ const DashboardPage = ({ nftsOwned, isAuthenticated }: Props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
   await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
-
-  if (session) {
+  if (session?.address) {
     const nftApiResponse = await Moralis.EvmApi.nft.getWalletNFTs({
-      address: session?.user?.address,
+      address: session?.address,
       tokenAddresses: [POLYLINK_CONTRACT_ADDRESS],
       chain: EvmChain.MUMBAI,
     });
-    
+
     console.log(nftApiResponse.raw.result);
     return {
       props: {

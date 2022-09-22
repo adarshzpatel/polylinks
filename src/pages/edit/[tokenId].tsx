@@ -270,8 +270,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   3. Redirect if not owner   
   */
 
-  // fetch data from tableland
-
   const session = await getSession(context);
   if (!session) {
     return {
@@ -285,7 +283,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const tokenId = context?.params?.tokenId as string;
   const prevValues = await getProfileDataById(tokenId);
 
-  if (session?.user.address !== prevValues.owner) {
+  if (session?.address !== prevValues.owner) {
     return {
       redirect: {
         destination: "/",
