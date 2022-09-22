@@ -30,7 +30,6 @@ const LinkProfileCard = ({
   coverURI,
   size='md'
 }: ProfileData & CardSize) => {
-  console.log({coverURI})
   return (
     <Card className={`${size === 'md' ? "max-w-md" : "max-w-sm"} w-full shadow-xl`}>
       <img

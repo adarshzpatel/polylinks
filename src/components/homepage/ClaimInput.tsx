@@ -60,8 +60,10 @@ const ClaimInput = ({ closeModal }: Props) => {
       });
       console.log(mintReq.data);
       setButtonText("Mint Successfull");
+      toast.success("Link Claimed successfully")
       closeModal();
     } catch (err) {
+      toast.success("Something went wrong")
       console.error(err);
     }
     setLoading(false);

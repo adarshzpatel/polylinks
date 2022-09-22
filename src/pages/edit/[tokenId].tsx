@@ -91,7 +91,8 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
           },
         })
         .then((res) => res.data);
-      router.push("/" + prevValues?.username);
+        toast.success("Edits saved successfully")
+        router.push("/" + prevValues?.username);
     } catch (err) {
       console.error(err);
       toast.error("Oops, something went wrong!!");

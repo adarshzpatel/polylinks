@@ -14,12 +14,11 @@ export default async function handler(
     const newData = req.body.data;
     const coverImage: File | null = newData.coverImage;
     let coverImageURI = "";
-    console.log(typeof newData.coverURI)
     // If cover image is available then upload it to nft.storage and retrieve the uri
+ 
     if (coverImage !== null) {
       const coverImageBlob = new Blob([coverImage])
       const coverImageCid = await storeToIpfs(coverImageBlob);
-      console.log(coverImageCid)
       coverImageURI = "ipfs://" + coverImageCid;
       console.log("Cover Image Updated");
     }
