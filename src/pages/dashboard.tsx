@@ -39,7 +39,7 @@ const DashboardPage = ({ nftsOwned, isAuthenticated }: Props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
   await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
-  if (session) {
+  if (session?.address) {
     const nftApiResponse = await Moralis.EvmApi.nft.getWalletNFTs({
       address: session?.address,
       tokenAddresses: [POLYLINK_CONTRACT_ADDRESS],
