@@ -49,3 +49,20 @@ Important Links
 
 - Github - https://github.com/adarshzpatel/polylinks
 - Demo - [https://polylinks.vercel.app/](https://polylinks.vercel.app/)
+
+## How to run on locally 
+
+1. clone the repo
+2. `npm install`
+3. create `.env.local` file 
+4. Add these env vars to .env.local
+```
+MORALIS_API_KEY=YOUR_MORALIS_API_KEY_HERE
+NFT_STORAGE_KEY=YOUR_NFT_STORAGE_KEY_HERE
+ALCHEMY_API_KEY=YOUR_ALCHEMY_KEY_HERE
+PRIVATE_KEY=YOUR_WALLET_PRIVATE_KEY ( this needs to be of the addres that deployed the nft contract )
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=ANY_SECRET_KEY
+APP_DOMAIN=polylinks.vercel.app
+```
+5. `npm run dev`
