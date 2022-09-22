@@ -40,30 +40,37 @@ const ConnectWallet: React.FC = () => {
       connector: new MetaMaskConnector(),
       chainId: 80001,
     });
-
+    console.log("Connect Success");
     const userData = { address: account, chain: chain.id, network: "evm" };
+    console.log("Gor user data");
 
-    const { data } = await axios.post("/api/auth/request-message", userData, {
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    try {
+      const { data } = await axios.post("/api/auth/request-message", userData, {
+        headers: {
+          "content-type": "application/json",
+        },
+      });
 
-    const message = data.message;
+      console.log("Got request message");
 
-    const signature = await signMessageAsync({ message });
+      const message = data.message;
 
-    // redirect user after success authentication to '/user' page
-    const res = await signIn("credentials", {
-      message,
-      signature,
-      redirect: false,
-      callbackUrl: "/dashboard",
-    });
-    /**
-     * instead of using signIn(..., redirect: "/user")
-     * we get the url from callback and push it to the router to avoid page refreshing
-     */
+      const signature = await signMessageAsync({ message });
+
+      // redirect user after success authentication to '/user' page
+      const res = await signIn("credentials", {
+        message,
+        signature,
+        redirect: false,
+        callbackUrl: "/dashboard",
+      });
+      /**
+       * instead of using signIn(..., redirect: "/user")
+       * we get the url from callback and push it to the router to avoid page refreshing
+       */
+    } catch (err) {
+      console.log(err);
+    }
     push("/dashboard");
   };
 
