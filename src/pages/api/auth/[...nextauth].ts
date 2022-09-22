@@ -1,76 +1,85 @@
-import CredentialsProvider from 'next-auth/providers/credentials';
-import Moralis from 'moralis';
-import NextAuth, { ISODateString } from 'next-auth';
-
-export type TUserData = {
-  address: string;
-  signature: string;
-  profileId: string;
-  expirationTime: ISODateString;
-};
-
-export interface ISession {
-  user: TUserData;
-}
+import { NextApiRequest, NextApiResponse } from "next";
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { getCsrfToken } from "next-auth/react";
+import { SiweMessage } from "siwe";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
-export default NextAuth({
-  providers: [
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  const providers = [
     CredentialsProvider({
-      name: 'MoralisAuth',
+      name: "Ethereum",
       credentials: {
         message: {
-          label: 'Message',
-          type: 'text',
-          placeholder: '0x0',
+          label: "Message",
+          type: "text",
+          placeholder: "0x0",
         },
         signature: {
-          label: 'Signature',
-          type: 'text',
-          placeholder: '0x0',
+          label: "Signature",
+          type: "text",
+          placeholder: "0x0",
         },
       },
       async authorize(credentials) {
         try {
-          const { message, signature } = credentials as Record<string, string>;
+          const siwe = new SiweMessage(
+            JSON.parse(credentials?.message || "{}")
+          );
 
-          await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
-
-          const { address, profileId, expirationTime, uri } = (
-            await Moralis.Auth.verify({ message, signature, network: 'evm' })
-          ).raw;
-          const nextAuthUrl = process.env.NEXTAUTH_URL;
-
-          if (uri !== nextAuthUrl) {
+          const nextAuthUrl =
+            process.env.NEXTAUTH_URL ||
+            (process.env.VERCEL_URL
+              ? `https://${process.env.VERCEL_URL}`
+              : null);
+          if (!nextAuthUrl) {
             return null;
           }
 
-          const user = { address, profileId, expirationTime, signature };
+          const nextAuthHost = new URL(nextAuthUrl).host;
+          if (siwe.domain !== nextAuthHost) {
+            return null;
+          }
 
-          return user;
+          if (siwe.nonce !== (await getCsrfToken({ req }))) {
+            return null;
+          }
+
+          await siwe.validate(credentials?.signature || "");
+          return {
+            id: siwe.address,
+          };
         } catch (e) {
-          // eslint-disable-next-line no-console
-          console.error(e);
           return null;
         }
       },
     }),
-  ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.user = user;
-      }
-      return token;
+  ];
+
+  const isDefaultSigninPage =
+    // @ts-ignore
+    req.method === "GET" && req.query.nextauth.includes("signin");
+
+  // Hide Sign-In with Ethereum from default sign page
+  if (isDefaultSigninPage) {
+    providers.pop();
+  }
+
+  return await NextAuth(req, res, {
+    // https://next-auth.js.org/configuration/providers/oauth
+    providers,
+    session: {
+      strategy: "jwt",
     },
-    async session({ session, token }) {
-      session.expires = (token as unknown as ISession).user.expirationTime;
-      (session as unknown as ISession).user = (token as unknown as ISession).user;
-      return session;
+    secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+      async session({ session, token }) {
+        session.address = token.sub;
+        //@ts-ignore
+        session.user.name = token.sub;
+        return session;
+      },
     },
-  },
-  session: {
-    strategy: 'jwt',
-  },
-});
+  });
+}

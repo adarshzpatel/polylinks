@@ -14,53 +14,15 @@ import {
 import Button from "@components/ui/Button";
 import { FiCopy } from "react-icons/fi";
 import { TbLogout } from "react-icons/tb";
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import Tooltip from "@components/ui/Tooltip";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 const ConnectWallet: React.FC = () => {
   const { data: session, status } = useSession();
   const { data: signer } = useSigner();
-  const { connectAsync } = useConnect();
   const { disconnectAsync } = useDisconnect();
-  const { isConnected } = useAccount();
-  const { signMessageAsync } = useSignMessage();
-  const { push } = useRouter();
 
-  const handleAuth = async () => {
-    if (isConnected) {
-      await disconnectAsync();
-    }
-
-    const { account, chain } = await connectAsync({
-      connector: new MetaMaskConnector(),
-    });
-
-    const userData = { address: account, chain: chain.id, network: "evm" };
-
-    const { data } = await axios.post("/api/auth/request-message", userData, {
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-
-    const message = data.message;
-
-    const signature = await signMessageAsync({ message });
-
-    // redirect user after success authentication to '/user' page
-    const res = await signIn("credentials", {
-      message,
-      signature,
-      redirect: false,
-      callbackUrl: "/dashboard",
-    });
-    /**
-     * instead of using signIn(..., redirect: "/user")
-     * we get the url from callback and push it to the router to avoid page refreshing
-     */
-    push("/dashboard");
-  };
-
+  const { openConnectModal } = useConnectModal();
   const handleDisconnect = async () => {
     try {
       await disconnectAsync()
@@ -71,8 +33,7 @@ const ConnectWallet: React.FC = () => {
     }
   };
 
-  const address = session?.user?.address.toString();
-
+const address = session?.address;
   return (
     <div className="flex items-center gap-4 ">
       <Link href={"/dashboard"}>
@@ -80,7 +41,7 @@ const ConnectWallet: React.FC = () => {
       </Link>
       <div className="items-center justify-center flex gap-4">
         {!session && (
-          <Button variant="primary" onClick={handleAuth}>
+          <Button variant="primary" onClick={openConnectModal}>
             Connect Wallet
           </Button>
         )}

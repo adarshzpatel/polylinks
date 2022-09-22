@@ -283,7 +283,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const tokenId = context?.params?.tokenId as string;
   const prevValues = await getProfileDataById(tokenId);
 
-  if (session?.user.address !== prevValues.owner) {
+  if (session?.address !== prevValues.owner) {
     return {
       redirect: {
         destination: "/",
