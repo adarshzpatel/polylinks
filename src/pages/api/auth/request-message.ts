@@ -5,7 +5,7 @@ future.setDate(future.getDate() + 30);
 
 const DOMAIN = process.env.APP_DOMAIN;
 const STATEMENT = "Please sign this message to confirm your identity.";
-const URI = process.env.NEXTAUTH_URL;
+const URI = process.env.VERCEL_URL || process.env.NEXTAUTH_URL;
 const EXPIRATION_TIME = future.toISOString();
 const TIMEOUT = 15;
 
