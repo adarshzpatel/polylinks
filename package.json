@@ -14,6 +14,7 @@
     "@tableland/sdk": "^3.1.1",
     "@tippyjs/react": "^4.2.6",
     "axios": "^0.27.2",
+    "canvas": "^2.10.1",
     "clsx": "^1.2.1",
     "ethers": "^5.7.0",
     "moralis": "^2.4.0",
