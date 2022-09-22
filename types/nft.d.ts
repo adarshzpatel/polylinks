@@ -57,4 +57,5 @@ export type ProfileDataSchema = {
   bio: string;
   socials: unknown;
   links: unknown;
+  coveruri:string
 };

@@ -84,32 +84,34 @@ const ConnectWallet: React.FC = () => {
       <Link href={"/dashboard"}>
         <Button>Go to dashboard </Button>
       </Link>
-      {!session && !signer && (
-        <Button variant="primary" onClick={handleAuth}>
-          Connect Wallet
-        </Button>
-      )}
-      {session && signer && (
-        <div className="items-center justify-center flex gap-4">
-          <Tooltip content="Copy Address">
-            <Button variant="success" className="flex items-center  gap-3">
-              {address?.slice(0, 4) + "..." + address?.slice(-5, -1)}
-              <span>
-                <FiCopy className="h-5 w-5" />
-              </span>
-            </Button>
-          </Tooltip>
-          <Tooltip content="Disconnect">
-            <Button
-              variant="danger"
-              onClick={handleDisconnect}
-              className="!p-2"
-            >
-              <TbLogout className="h-6 w-6" />
-            </Button>
-          </Tooltip>
-        </div>
-      )}
+      <div className="items-center justify-center flex gap-4">
+        {!session && (
+          <Button variant="primary" onClick={handleAuth}>
+            Connect Wallet
+          </Button>
+        )}
+        {session && (
+          <>
+            <Tooltip content="Copy Address">
+              <Button variant="success" className="flex items-center  gap-3">
+                {address?.slice(0, 4) + "..." + address?.slice(-5, -1)}
+                <div>
+                  <FiCopy className="h-5 w-5" />
+                </div>
+              </Button>
+            </Tooltip>
+            <Tooltip content="Disconnect">
+              <Button
+                variant="danger"
+                onClick={handleDisconnect}
+                className="!p-2"
+              >
+                <TbLogout className="h-6 w-6" />
+              </Button>
+            </Tooltip>
+          </>
+        )}
+      </div>
     </div>
   );
 };

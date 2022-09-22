@@ -10,6 +10,5 @@ export const storeToIpfs = async (data: Blob): Promise<string | undefined> => {
     return cid;
   } catch (err) {
     console.log(err);
-    throw Error("Failed to upload file to ipfs")
   }
 };

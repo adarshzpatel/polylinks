@@ -9,8 +9,12 @@
     @apply bg-gray-900 text-gray-200;
   }
 
+  em{
+    @apply text-brand-300 underline underline-offset-8
+  }
+
   .page-center {
-    @apply flex justify-center items-center h-[calc(100vh-280px)];
+    @apply flex justify-center items-center min-h-[calc(100vh-280px)];
   }
 }
 

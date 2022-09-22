@@ -9,19 +9,24 @@ import {
 import axios from "axios";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
-type Props = {};
+type Props = {
+  closeModal: any;
+};
 
-const validName = new RegExp('^[a-z0-9]')
+const validName = new RegExp("^[a-z0-9]");
 
 const PRICE = 0.5;
-const ClaimInput = (props: Props) => {
+const ClaimInput = ({ closeModal }: Props) => {
+  const router = useRouter();
   const [name, setName] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [isAvailable, setIsAvailable] = useState<boolean>(true);
   const provider = useProvider({ chainId: chain.polygonMumbai.id });
- const {isConnected, address} = useAccount();
+  const [buttonText, setButtonText] = useState<string>("CLAIM LINK");
+  const { isConnected, address } = useAccount();
   const polyLinkContract = useContract({
     addressOrName: POLYLINK_CONTRACT_ADDRESS,
     contractInterface: POLYLINK_ABI,
@@ -29,28 +34,24 @@ const ClaimInput = (props: Props) => {
   });
   // check if the name is available or taken
 
-
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const _name = e.target.value.toLowerCase();
-    setName(_name.replaceAll(" ","").replaceAll("/",''));
-    if(_name === "") {
-      setError('This field cannot be empty')
-      return
+    setName(_name.replaceAll(" ", "").replaceAll("/", ""));
+    if (_name === "") {
+      setError("This field cannot be empty");
+      return;
     }
-    setError('')
+    setError("");
 
-    console.log(validName.test(_name))
+    console.log(validName.test(_name));
     checkIfAvailable(_name);
   };
 
-
-  const sendMatic = () => {
-
-  }
+  const sendMatic = () => {};
 
   const handleClaim = async () => {
     setLoading(true);
-    
+    setButtonText("Minting your link...");
     try {
       if (!isConnected) throw new Error("Wallet Not Connected");
       const mintReq = await axios.post("/api/mint", {
@@ -58,15 +59,17 @@ const ClaimInput = (props: Props) => {
         claimAddress: address,
       });
       console.log(mintReq.data);
+      setButtonText("Mint Successfull");
+      closeModal();
     } catch (err) {
       console.error(err);
     }
-
     setLoading(false);
   };
 
   const checkIfAvailable = async (_name: string) => {
     setLoading(true);
+    setButtonText("CHECKING AVAILABILITY");
     try {
       const res = await polyLinkContract.namesToOwners(_name);
       console.log(res);
@@ -77,6 +80,7 @@ const ClaimInput = (props: Props) => {
       console.log(err);
     }
     console.log(isAvailable);
+    setButtonText("CLAIM LINK");
     setLoading(false);
   };
 
@@ -90,31 +94,36 @@ const ClaimInput = (props: Props) => {
         minLength={1}
         maxLength={12}
         error={error}
-      
-     />
-      <p className="text-xs text-gray-600 ">Only alphanumeric characters allowed ( a-z & 0-9 )</p>
-      {name && !loading && <div className={clsx(
-        {
-          "text-green-500 bg-green-600/10" : isAvailable
-          ,
-          "text-red-400 bg-red-700/10": !isAvailable,
-
-        },"text-sm p-2 px-4 rounded-md"
-        
-      )}>
-        {isAvailable ? `Available for ${PRICE} MATIC` : "Already taken , try something else"}
-        </div>}
-        {isAvailable &&
+      />
+      <p className="text-xs text-gray-600 ">
+        Only alphanumeric characters allowed ( a-z & 0-9 )
+      </p>
+      {name && !loading && (
+        <div
+          className={clsx(
+            {
+              "text-green-500 bg-green-600/10": isAvailable,
+              "text-red-400 bg-red-700/10": !isAvailable,
+            },
+            "text-sm p-2 px-4 rounded-md"
+          )}
+        >
+          {isAvailable
+            ? `Available for ${PRICE} MATIC`
+            : "Already taken , try something else"}
+        </div>
+      )}
+      {isAvailable && (
         <Button
           loading={loading}
           variant="primary"
-          disabled={error !== ''}
+          disabled={name === '' || error !== "" || loading}
           onClick={() => handleClaim()}
           className="!py-2 flex items-center justify-center uppercase "
         >
-          {loading ? "Checking availability" : "Claim Link"}
+          {buttonText}
         </Button>
-      }
+      )}
     </div>
   );
 };

@@ -70,7 +70,7 @@ const UploadCoverDropzone = ({
       </div>
       <div {...getRootProps()}>
         {!file && (
-          <div className="border-2 text-gray-400 flex flex-col gap-2 cursor-pointer items-center justify-center border-gray-500 rounded-lg h-[252px]  border-dashed">
+          <div className="border-2 aspect-video text-gray-400 flex flex-col gap-2 cursor-pointer items-center justify-center border-gray-500 rounded-lg h-[252px]  border-dashed">
             <input {...getInputProps()} />
             <RiImageAddLine className="h-6 w-6" />
             <p className="text-sm">Upload Cover Image</p>
@@ -79,11 +79,11 @@ const UploadCoverDropzone = ({
         )}
       </div>
       {file && (
-        <div className="border-2 overflow-hidden text-gray-400 flex flex-col gap-2 cursor-pointer items-center justify-center border-gray-500 rounded-lg h-[252px]  border-dashed">
+        <div className="border-2 overflow-hidden aspect-video text-gray-400 flex flex-col gap-2 cursor-pointer items-center justify-center border-gray-500 rounded-lg h-[252px]  border-dashed">
           <img
             src={thumbnail.toString()}
             alt="preview"
-            className="w-full object-cover object-cover"
+            className="w-full object-cover "
           />
         </div>
       )}

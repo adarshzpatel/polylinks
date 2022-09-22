@@ -3,8 +3,8 @@ import { ethers } from "ethers";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Blob } from "nft.storage";
 import { chain } from "wagmi";
-import { storeToIpfs } from "./nftStorage";
-import { updateProfileData } from "./tableland";
+import { storeToIpfs } from "../../lib/nftStorage";
+import { updateProfileData } from "../../lib/tableland";
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,14 +14,16 @@ export default async function handler(
     const newData = req.body.data;
     const coverImage: File | null = newData.coverImage;
     let coverImageURI = "";
-
+    console.log(typeof newData.coverURI)
     // If cover image is available then upload it to nft.storage and retrieve the uri
-    if (coverImage) {
-      const coverImageBlob = new Blob([coverImage]);
+    if (coverImage !== null) {
+      const coverImageBlob = new Blob([coverImage])
       const coverImageCid = await storeToIpfs(coverImageBlob);
+      console.log(coverImageCid)
       coverImageURI = "ipfs://" + coverImageCid;
+      console.log("Cover Image Updated");
     }
-
+    
     const privateKey = process.env.PRIVATE_KEY || "";
     const provider = new ethers.providers.AlchemyProvider(
       chain.polygonMumbai.id,
@@ -33,9 +35,10 @@ export default async function handler(
       { ...newData, coverimage: coverImageURI },
       signer
     );
-  
+      console.log("Updated successfulluy")
     res.status(200).json({ resultHash });
   } catch (err) {
+    console.log(err)
     res.status(500).json(err);
   }
 }

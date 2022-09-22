@@ -19,6 +19,7 @@ import {
   TbBrandYoutube,
   TbMail,
 } from "react-icons/tb";
+import { Blob } from "nft.storage";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { LinkType, NftFormData, ProfileDataSchema, Socials } from "types/nft";
 import { getProfileDataById, updateProfileData } from "src/lib/tableland";
@@ -28,10 +29,12 @@ import { toast } from "react-hot-toast";
 import LinkNftCard from "@components/dashboard/LInkNftCard";
 import LinkProfileCard from "@components/profile/LinkProfileCard";
 import { link } from "fs";
+import { storeToIpfs } from "src/lib/nftStorage";
+import { ifError } from "assert";
 
 type Props = {
   tokenId: string;
-  prevValues: ProfileDataSchema;
+  prevValues: ProfileDataSchema | null;
 };
 
 const EditPage = ({ tokenId, prevValues }: Props) => {
@@ -48,7 +51,7 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
     },
   });
   const [coverImage, setCoverImage] = useState<File | null>(null);
-  const [links, setLinks] = useState<any>(prevValues.links || []);
+  const [links, setLinks] = useState<any>(prevValues?.links || []);
   const [showAddLinkModal, setShowAddLinkModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
@@ -62,6 +65,8 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
     setShowAddLinkModal(false);
   };
 
+  console.log(prevValues);
+
   const deleteLink = (i: number) => {
     setLinks((links: any) => links.filter((_: any, idx: number) => idx !== i));
   };
@@ -72,6 +77,7 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
 
     setLoading(true);
     try {
+
       await axios
         .post("/api/update-profile", {
           data: {
@@ -81,7 +87,7 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
             displayname: data.displayName,
             links: JSON.stringify(links),
             socials: JSON.stringify(data.socials),
-            coverImage: coverImage || null,
+            coverImage: coverImage,
           },
         })
         .then((res) => res.data);
@@ -93,6 +99,7 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
     setLoading(false);
   };
 
+  if (!prevValues) return <div>This page does not exists</div>;
   return (
     <>
       {isPreviewOpen && (
@@ -122,7 +129,7 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
         closeModal={closeModal}
         handleAddLink={handleAddlink}
       />
-      <AppContainer>
+      <>
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold border-l-4  border-gray-600 pl-4 py-1">
             Edit{" "}
@@ -194,46 +201,40 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
                 <Input
                   pre={<TbBrandTwitter className="h-6 w-6" />}
                   label="Twitter"
-                  placeholder="Enter Twitter Link"
+                  placeholder="https://twitter.com/xyz"
                   {...register("socials.twitter")}
                 />
                 <Input
                   pre={<TbBrandGithub className="h-6 w-6" />}
                   label="Github"
-                  placeholder="Enter Github Link"
+                  placeholder="https://github.com/xyz"
                   {...register("socials.github")}
                 />
                 <Input
                   pre={<TbBrandInstagram className="h-6 w-6" />}
                   label="Instagram"
-                  placeholder="Enter Instagram Link"
+                  placeholder="https://instagram.com/xyz"
                   {...register("socials.instagram")}
                 />
                 <Input
                   pre={<TbBrandLinkedin className="h-6 w-6" />}
                   label="LinkedIn"
-                  placeholder="Enter LinkedIn Link"
+                  placeholder="https://linkedin.com/in/xyz"
                   {...register("socials.linkedIn")}
                 />
                 <Input
                   pre={<TbBrandYoutube className="h-6 w-6" />}
                   label="YouTube"
-                  placeholder="Enter Youtube Link"
+                  placeholder="https://youtube.com/c/xyz"
                   {...register("socials.youtube")}
                 />
                 <Input
                   pre={<TbMail className="h-6 w-6" />}
                   label="Email"
                   type="email"
-                  placeholder="Enter email"
+                  placeholder="xyz@abc.com"
                   {...register("socials.email")}
                 />
-
-                {/* <Input
-              pre={<TbBrandTwitter className="h-6 w-6" />}
-              label="Facebook"
-              placeholder="Enter Facebook Link"
-            /> */}
               </div>
             </div>
           </div>
@@ -256,7 +257,7 @@ const EditPage = ({ tokenId, prevValues }: Props) => {
           </Button>
         </div> */}
         </form>
-      </AppContainer>
+      </>
     </>
   );
 };
@@ -274,7 +275,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       tokenId,
-      prevValues,
+      prevValues: prevValues ? prevValues : null,
     },
   };
 };

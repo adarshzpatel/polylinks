@@ -9,7 +9,7 @@ import { LinkType, ProfileDataSchema, Socials } from "types/nft";
 import AppContainer from "@components/layout/AppContainer";
 
 type Props = {
-  data: ProfileDataSchema | undefined;
+  data: ProfileDataSchema | null;
 };
 
 const LinkProfilePage = ({ data }: Props) => {
@@ -21,31 +21,21 @@ const LinkProfilePage = ({ data }: Props) => {
     return <Loading />;
   }
 
-  if (data === null) {
-    return (
-      <AppContainer>
-        {" "}
-        <div className="page-center">
-          This link hasn not been claimed yet , be the first to claim it
-        </div>
-      </AppContainer>
-    );
-  }
 
   return (
     // <AppContainer>
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="page-center">
       {/* <Link href={`${name}/edit`}>Edit my Page</Link> */}
-      <LinkProfileCard
+      {data ? <LinkProfileCard
         owner={data?.owner || ''}
         tokenId={data?.tokenid || -1}
         username={data?.username || ""}
         bio={data?.bio || ''}
         displayName={data?.displayname || 'DisplayName'}
-        coverURI="https://images.unsplash.com/photo-1662869633285-13fe05236a72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1460&q=80"
+        coverURI={data?.coveruri}
         links={data?.links as LinkType[] || []}
         socials={data?.socials as Socials || {}}
-      />
+      /> : "This link has not been claimed yet , be the first to claim it."}
     </div>
     // </AppContainer>
   );
@@ -55,10 +45,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const username = context?.params?.name as string;
 
   const data = await getProfileDataByUsername(username);
-  console.log(data)
   return {
     props: {
-      data: data,
+      data: data || null,
     },
   };
 };

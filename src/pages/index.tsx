@@ -1,16 +1,22 @@
 import ClaimModal from "@components/dashboard/ClaimModal";
+import About from "@components/homepage/About";
+import Footer from "@components/homepage/Footer";
 import Hero from "@components/homepage/Hero";
+import Roadmap from "@components/homepage/Roadmap";
 import AppContainer from "@components/layout/AppContainer";
 import Button from "@components/ui/Button";
 import type { NextPage } from "next";
 import { useState } from "react";
-import { createNewProfileDataRow, createNewTable } from "src/lib/tableland";
+import {
+  createNewProfileDataRow,
+  createNewTable,
+  getMyTable,
+} from "src/lib/tableland";
 import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
-
-  const [claimModal,setClaimModal] = useState<boolean>(true)
   const { address } = useAccount();
+
   const handleCreateTable = async () => {
     try {
       if (!address) throw new Error("CONNECT WALLET FIRST");
@@ -25,14 +31,14 @@ const Home: NextPage = () => {
     }
   };
   return (
-    <AppContainer>
-      <ClaimModal closeModal={()=>setClaimModal(false)} isOpen={claimModal} />
+    <>
       <div>
         <Hero />
+        <About />
+        <Roadmap />
+        <Footer />
       </div>
-      <Button onClick={createNewTable}>Create new table</Button>
-
-    </AppContainer>
+    </>
   );
 };
 
