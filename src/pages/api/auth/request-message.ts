@@ -13,10 +13,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { address, chain, network } = req.body;
-
-  await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
   try {
+    const { address, chain, network } = req.body;
+
+    await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
     if (!DOMAIN || !URI) {
       throw new Error("Please add APP_DOMAIN in the .env.local");
     }
@@ -30,6 +30,9 @@ export default async function handler(
       expirationTime: EXPIRATION_TIME,
       timeout: TIMEOUT,
     });
+
+    console.log(message);
+
     res.status(200).json(message);
   } catch (error) {
     console.log({ error });
