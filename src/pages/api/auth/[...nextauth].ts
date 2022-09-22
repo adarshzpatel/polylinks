@@ -59,19 +59,18 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      user && (token.user = user);
+      if (user) {
+        token.user = user;
+      }
       return token;
     },
     async session({ session, token }) {
       session.expires = (token as unknown as ISession).user.expirationTime;
       (session as unknown as ISession).user = (token as unknown as ISession).user;
-      return session ;
+      return session;
     },
   },
   session: {
     strategy: 'jwt',
-  },
-  pages: {
-    signIn: '/signin',
   },
 });

@@ -73,12 +73,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <WagmiConfig client={client}>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <RainbowKitProvider coolMode theme={customTheme} chains={chains}>
-            <Toaster />
-            <AppContainer>
-              {loading ? <Loading /> : <Component {...pageProps} />}
-            </AppContainer>
-          </RainbowKitProvider>
+          {/* <RainbowKitProvider coolMode theme={customTheme} chains={chains}> */}
+          <Toaster />
+          <AppContainer>
+            {loading ? <Loading /> : <Component {...pageProps} />}
+          </AppContainer>
+          {/* </RainbowKitProvider> */}
         </SessionProvider>
       </WagmiConfig>
     </>
